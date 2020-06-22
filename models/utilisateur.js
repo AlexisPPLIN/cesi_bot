@@ -6,7 +6,9 @@ module.exports = (sequelize, DataTypes) => {
     id_discord: DataTypes.INTEGER
   }, {});
   Utilisateur.associate = function(models) {
-    // associations can be defined here
+    Utilisateur.belongsTo(models.Role);
+    Utilisateur.hasMany(models.Presence);
   };
+
   return Utilisateur;
 };
