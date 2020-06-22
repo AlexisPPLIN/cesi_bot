@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT
   }, {});
   Statut.associate = function(models) {
-    // associations can be defined here
+    Statut.hasMany(models.Presence);
   };
   return Statut;
 };

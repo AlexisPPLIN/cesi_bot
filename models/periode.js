@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     fin: DataTypes.DATE
   }, {});
   Periode.associate = function(models) {
-    // associations can be defined here
+    Periode.hasMany(models.Presence);
   };
   return Periode;
 };
