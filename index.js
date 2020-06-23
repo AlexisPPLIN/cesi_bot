@@ -61,13 +61,14 @@ client.on('message', message => {
 
 		if (MessageMinuscule.slice(0, 10) == '!présences') {//si message commence par !présences
 			var etudiant = ['Alexis', 'justin'];
+			
 			var ListeEtudiantChaine = "";
 			for (let i = 0; i < etudiant.length; i++) {
 				ListeEtudiantChaine = ListeEtudiantChaine + "🎓" + etudiant[i] + "\n";
 			}
 
 			embed_presence_jour.embed.fields[0].value=ListeEtudiantChaine;
-			message.author.send({ embed: embed_presence_jour.embed });
+			message.channel.send({ embed: embed_presence_jour.embed });
 		}
 
 
