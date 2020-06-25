@@ -1,24 +1,19 @@
 const Discord = require('discord.js');
-const config = require('./config.json');
-
-
+const env = require('./config.json');
+const client = new Discord.Client();
+const db = require('./models/index');
 
 var fs = require("fs")
 var vm = require('vm')
 
-
-
 vm.runInThisContext(fs.readFileSync("./embed/embed_confirmation_presence_MP.js"))
 vm.runInThisContext(fs.readFileSync("./embed/embed_presence_jour.js"))
-
-const client = new Discord.Client();
 
 client.once('ready', () => {
 	console.log('Ready!');
 });
 
-client.login(config.token);
-
+client.login(env.token);
 
 client.on('message', message => {
 	var MessageMinuscule = message.content.toLowerCase()//afin de pas prendre en compte les majuscule ou minuscule 
@@ -85,3 +80,4 @@ client.on('message', message => {
 	}
 
 });
+
