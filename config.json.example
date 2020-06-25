@@ -1,4 +1,10 @@
 {
+    "debug": false,
 	"prefix": "!",
-	"token": "your-token-goes-here"
+	"token": "your-token-goes-here",
+	"db_type": "mysql",
+    "db_host": "localhost",
+    "db_user": "root",
+    "db_pass": "",
+    "db_name": "cesi_bot"
 }
