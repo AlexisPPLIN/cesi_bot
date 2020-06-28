@@ -41,6 +41,10 @@
                     "field": "id",
                     "seqType": "Sequelize.INTEGER"
                 },
+                "date_arrive": {
+                    "field": "date_arrive",
+                    "seqType": "Sequelize.DATE"
+                },
                 "createdAt": {
                     "allowNull": false,
                     "field": "createdAt",
@@ -196,5 +200,5 @@
             "indexes": []
         }
     },
-    "revision": 2
+    "revision": 3
 }
