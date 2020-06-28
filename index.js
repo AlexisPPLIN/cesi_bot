@@ -3,6 +3,11 @@ const env = require('./config.json');
 const client = new Discord.Client();
 const db = require('./models/index');
 
+// Initialize Agenda
+const mongoConnectionString = 'mongodb://'+env.mongoDB_host+':'+env.mongoDB_port+'/agenda';
+const Agenda = require('agenda')
+const agenda = new Agenda({db: {address: mongoConnectionString}});
+
 var fs = require("fs")
 var vm = require('vm')
 
