@@ -12,6 +12,14 @@ vm.runInThisContext(fs.readFileSync("./embed/embed_declaration_presence.js"))
 vm.runInThisContext(fs.readFileSync("./embed/embed_fin_declaration_presence.js"))
 vm.runInThisContext(fs.readFileSync("./embed/embed_liste_etudiant.js"))
 
+
+const STATUT = {
+	RETARD: 1,
+	PRESENT: 2,
+	EN_ATTENTE: 3,
+	ABSENT: 4
+}
+
 client.once('ready', () => {
 	console.log('Ready!');
 });
@@ -33,13 +41,72 @@ client.on('message', message => {
 
 
 			//modification dans la bd avec l'heure et en fct de l'id
+			var dateActuel = new Date();
+
+			if (dateActuel.getHours() < 13) {
+				//date debut periode
+				var anneePeriodeDebut = dateActuel.getFullYear();
+				var moisPeriodeDebut = dateActuel.getMonth() + 1;
+				var jourPeriodeDebut = dateActuel.getDate();
+				var heurePeriodeDebut = 8;
+				var minutePeriodeDebut = 45;
+				var secondePeriodeDebut = 0;
+
+				//date fin periode
+				var anneePeriodeFin = dateActuel.getFullYear();
+				var moisPeriodeFin = dateActuel.getMonth() + 1;
+				var jourPeriodeFin = dateActuel.getDate();
+				var heurePeriodeFin = 12;
+				var minutePeriodeFin = 15;
+				var secondePeriodeFin = 0;
+
+				if ((dateActuel.getHours() == 8 && dateActuel.getMinutes() > 45) || dateActuel.getHours() > 8) {
+					var statutid = STATUT.RETARD;
+
+				}
+				else {
+					var statutid = STATUT.PRESENT;
+				}
+
+			}
+			else {
+				//date debut periode
+				var anneePeriodeDebut = dateActuel.getFullYear();
+				var moisPeriodeDebut = dateActuel.getMonth() + 1;
+				var jourPeriodeDebut = dateActuel.getDate();
+				var heurePeriodeDebut = 13;
+				var minutePeriodeDebut = 30;
+				var secondePeriodeDebut = 0;
+
+				//date fin periode
+				var anneePeriodeFin = dateActuel.getFullYear();
+				var moisPeriodeFin = dateActuel.getMonth() + 1;
+				var jourPeriodeFin = dateActuel.getDate();
+				var heurePeriodeFin = 17;
+				var minutePeriodeFin = 0;
+				var secondePeriodeFin = 0;
+				if ((dateActuel.getHours() == 13 && dateActuel.getMinutes() > 30) || dateActuel.getHours() > 14) {
+					var statutid = STATUT.RETARD;
+
+				}
+				else {
+					var statutid = STATUT.PRESENT;
+
+				}
+
+			}
 
 
+
+
+
+
+
+			//pour prevenir l'utilisateur
 			db.Utilisateur.findOne({
 				where: { id_discord: message.author.id },
 				attributes: ['id', 'prenom', 'nom', 'RoleId']
 			}).then(Utilisateur => {
-				//console.log() message.author.username;
 				embed_confirmation_presence_mp.embed.fields[0].value = Utilisateur.nom + " " + Utilisateur.prenom //modifie le nom /* mettre le nom de la base de donne en fct de l'id
 
 				message.delete();//supprime le msg
@@ -90,7 +157,7 @@ client.on('message', message => {
 		if (MessageMinuscule.slice(0, 6) == '!cours') {//si message commence par !cours
 		}
 
-		
+
 		if (MessageMinuscule.slice(0, 5) == '!link') {//si message commence par !link
 			commandeLink = message.content.substr(6);//mets la chaine sans le debut '!link'
 
@@ -124,10 +191,10 @@ client.on('message', message => {
 			var PrenomCommande = commandeLink.slice(0, commandeLink.indexOf(' ')) //prend la partie de la chaine a partir de 0 jusqua l'espace
 			commandeLink = commandeLink.substr(commandeLink.indexOf(' '));
 			var IdDiscordCommande = commandeLink.slice(4, commandeLink.indexOf('>'))//prend la partie de la chaine a partir de 1 jusqua la fin
-			db.Utilisateur.findOne({where: { id_discord:IdDiscordCommande }}).then(Utilisateur => {
+			db.Utilisateur.findOne({ where: { id_discord: IdDiscordCommande } }).then(Utilisateur => {
 
 				return Utilisateur.destroy();
-			  });
+			});
 
 		}
 
