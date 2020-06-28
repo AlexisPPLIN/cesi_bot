@@ -169,7 +169,7 @@
                 },
                 "id_discord": {
                     "field": "id_discord",
-                    "seqType": "Sequelize.BIGINT(20)"
+                    "seqType": "Sequelize.INTEGER"
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -196,5 +196,5 @@
             "indexes": []
         }
     },
-    "revision": 2
+    "revision": 1
 }
