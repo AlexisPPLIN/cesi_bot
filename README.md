@@ -10,6 +10,7 @@
 3. `npm install`
 4. `cp config.json.example config.json`
 5. open `config.json` and add your bot token into `"token":`
+4. `cp config\config.json.example config\config.json`
 6. open `config\config.json` and add your database credentials.
 7. Run `makemigration` to create your database.
 
