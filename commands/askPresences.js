@@ -20,8 +20,8 @@ module.exports = {
         start_date.setHours(start_splited[0],start_splited[1],0,0)
 
         let end_date = new Date();
-        let end_splitted = args[1].split(':');
-        end_date.setHours(end_splitted[0],end_splitted[1],0,0)
+        let end_splited = args[1].split(':');
+        end_date.setHours(end_splited[0],end_splited[1],0,0)
 
         // Check if the start date is not after or equal to the end time
         if(start_date >= end_date){
@@ -41,9 +41,15 @@ module.exports = {
             where: {debut: start_date, fin: end_date},
             attributes: ['id']
         }).then(periode =>{
-            console.log(periode)
             if(periode === null){
                 //Does not exists, create a new one
+                db.Periode.create({
+                    debut: start_date,
+                    fin: end_date
+                }).then(periode =>{
+                    // Periode registered, now send message
+
+                })
             }else{
                 //Already exists
                 message.channel.send('This time period already exists !');
