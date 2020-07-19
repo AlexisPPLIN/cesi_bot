@@ -23,34 +23,6 @@ vm.runInThisContext(fs.readFileSync("./embed/embed_presence_jour.js"))
 
 client.once('ready', () => {
 	console.log('Ready!');
-	//Check if the channel id is correct
-	/**
-	client.channels.fetch(env.presence_channel_id)
-		.then((channel) => {
-			if(channel.type !== "text") throw new Error("Channel given is not a text channel")
-			console.log("Presence channel detected !");
-
-			//Initialize PeriodPlanner
-			let planner = new PeriodPlanner(channel);
-			planner.importModel("default.json",() => {
-				//Model imported
-				let start = new Date();
-				start.setSeconds(start.getSeconds() + 5);
-				console.log("start : "+start);
-
-				let end = new Date();
-				end.setSeconds(end.getSeconds() + 50);
-				console.log("end : "+end);
-
-				planner.registerPeriode(start,end);
-			});
-
-		})
-		.catch(() => {
-			throw new Error("404 : Presence channel not found, check id in config");
-		});
-	 */
-
 });
 
 client.login(env.token);
