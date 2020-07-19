@@ -1,6 +1,10 @@
 const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
 const EndBeforeStartError = require('../Exceptions/EndBeforeStartError')
 const TimeAlreadyPassedError = require('../Exceptions/TimeAlreadyPassedError')
+const moment = require('moment');
+moment.locale('fr')
+
+const db = require('../models/index');
 
 module.exports = class PresenceSupervisor{
     constructor(start_arg,end_arg) {
@@ -40,10 +44,50 @@ module.exports = class PresenceSupervisor{
         return true;
     }
 
-    GenerateStartPeriodEmbed(start_date){
+    registerPeriodToDatabase(callback){
+        // TODO add pre_debut
+        db.Periode.findOrCreate({where : {debut: this.start, fin: this.end},defaults: {pre_debut: new Date()}})
+            .then(([periode,created]) =>{
+                this.periode = periode;
+                callback(periode,created);
+            })
+    }
+
+    /* Embeds */
+
+    generateStartPeriodEmbed(){
         let date_now = new Date();
-        const embed = {
+        let start_moment = moment(this.start);
+        let description = moment().format('L');
+        let text = moment().format('LT')+' - '+start_moment.format('LT')+' (retard enregisté)';
+
+        return {
             "title": "Déclaration des présences",
+            "description": description,
+            "url": "https://discordapp.com",
+            "color": 10071592,
+            "timestamp": date_now.toString(),
+            "author": {
+                "name": "CESI Bot",
+                "url": "https://github.com/DevEkode/cesi_bot",
+                "icon_url": "https://puu.sh/G2gn6/c26897ba03.png"
+            },
+            "fields": [
+                {
+                    "name": "Période de déclaration",
+                    "value": text
+                },
+                {
+                    "name": "Utilisez !present ci-dessous",
+                    "value": "Vous receverez un message privé qui vous confirmera votre présence."
+                }
+            ]
+        };
+    }
+
+    generateEndPeriodEmbed(){
+        return {
+            "title": "Fin déclaration des présences",
             "description": "13/06/2020 - Matin",
             "url": "https://discordapp.com",
             "color": 10071592,
@@ -55,15 +99,10 @@ module.exports = class PresenceSupervisor{
             },
             "fields": [
                 {
-                    "name": "Période de déclaration",
-                    "value": "8h00 - 8h45 (retard enregisté)"
-                },
-                {
-                    "name": "Utilisez !present ci-dessous",
-                    "value": "Vous receverez un message privé qui vous confirmera votre présence."
+                    "name": "Les présences déclarées après ce message sont considéré avec du retard",
+                    "value": "Après 12h15 vous serez considérer comme absent"
                 }
             ]
         };
-        return embed;
     }
 }

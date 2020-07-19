@@ -10,6 +10,10 @@
                     "field": "id",
                     "seqType": "Sequelize.INTEGER"
                 },
+                "pre_debut": {
+                    "field": "pre_debut",
+                    "seqType": "Sequelize.DATE"
+                },
                 "debut": {
                     "field": "debut",
                     "seqType": "Sequelize.DATE"
@@ -200,5 +204,5 @@
             "indexes": []
         }
     },
-    "revision": 3
+    "revision": 4
 }
