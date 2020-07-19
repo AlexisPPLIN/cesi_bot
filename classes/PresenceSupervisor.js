@@ -5,6 +5,7 @@ const moment = require('moment');
 moment.locale('fr')
 
 const db = require('../models/index');
+const env = require('../config.json');
 
 module.exports = class PresenceSupervisor{
     constructor(start_arg,end_arg) {
@@ -51,6 +52,10 @@ module.exports = class PresenceSupervisor{
                 this.periode = periode;
                 callback(periode,created);
             })
+    }
+
+    planEndEmbedSend(callback){
+
     }
 
     /* Embeds */

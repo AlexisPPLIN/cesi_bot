@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "agenda": "^3.1.0",
+    "bree": "^1.1.18",
     "discord.js": "^12.2.0",
     "moment": "^2.27.0",
     "mysql2": "^2.1.0",

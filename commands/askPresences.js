@@ -1,4 +1,3 @@
-const db = require('../models/index');
 const PresenceSupervisor = require('../classes/PresenceSupervisor');
 
 const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
@@ -35,6 +34,11 @@ module.exports = {
                 // Send the embed
                 let start_embed = supervisor.generateStartPeriodEmbed();
                 message.channel.send({embed: start_embed});
+
+                // Plan end period embed
+                supervisor.planEndEmbedSend((embed) =>{
+                    message.channel.send({embed: embed});
+                })
             }
         })
     },
