@@ -126,7 +126,7 @@ module.exports = class PresenceSupervisor{
      */
     isPeriodOverlapping(callback){
         db.Periode.findOne({where : {
-            fin : {[Op.gt]: this.start},
+            fin : {[Op.gt]: new Date()},
             debut : {[Op.lt]: this.end}
         }}).then((periode) => {
             callback(periode !== null);
