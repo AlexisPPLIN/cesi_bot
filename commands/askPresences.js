@@ -32,13 +32,11 @@ module.exports = {
                 message.channel.send("This time period already exists !");
             }else{
                 // Send the embed
-                let start_embed = supervisor.generateStartPeriodEmbed();
+                let start_embed = supervisor.generatePreStartPeriodEmbed();
                 message.channel.send({embed: start_embed});
 
                 // Plan end period embed
-                supervisor.planEndEmbedSend((embed) =>{
-                    message.channel.send({embed: embed});
-                })
+                supervisor.planStartEmbedSend();
             }
         })
     },

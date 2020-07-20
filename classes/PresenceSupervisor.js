@@ -7,6 +7,9 @@ moment.locale('fr')
 const db = require('../models/index');
 const env = require('../config.json');
 
+const Queue = require('bull');
+let embedQueue = new Queue('embed', 'redis://127.0.0.1:6379');
+
 module.exports = class PresenceSupervisor{
     constructor(start_arg,end_arg) {
         let start_date = this.parseDate(start_arg);
@@ -46,7 +49,6 @@ module.exports = class PresenceSupervisor{
     }
 
     registerPeriodToDatabase(callback){
-        // TODO add pre_debut
         db.Periode.findOrCreate({where : {debut: this.start, fin: this.end},defaults: {pre_debut: new Date()}})
             .then(([periode,created]) =>{
                 this.periode = periode;
@@ -54,13 +56,23 @@ module.exports = class PresenceSupervisor{
             })
     }
 
-    planEndEmbedSend(callback){
+    planStartEmbedSend(){
+        let cron = moment(this.start).format("s m k D M d")
 
+        embedQueue.add({
+            embed: this.generateStartPeriodEmbed()
+        },{
+            repeat:{
+                cron: cron,
+                tz: "Europe/Paris",
+                limit: 1
+            }
+        });
     }
 
     /* Embeds */
 
-    generateStartPeriodEmbed(){
+    generatePreStartPeriodEmbed(){
         let date_now = new Date();
         let start_moment = moment(this.start);
         let description = moment().format('L');
@@ -90,7 +102,7 @@ module.exports = class PresenceSupervisor{
         };
     }
 
-    generateEndPeriodEmbed(){
+    generateStartPeriodEmbed(){
         return {
             "title": "Fin déclaration des présences",
             "description": "13/06/2020 - Matin",

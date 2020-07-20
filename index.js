@@ -2,10 +2,12 @@ const Discord = require('discord.js');
 const env = require('./config.json');
 const client = new Discord.Client();
 const db = require('./models/index');
-//const PeriodPlanner = require('./classes/PeriodPlanner');
 
 const fs = require("fs")
 const vm = require('vm')
+
+const Queue = require('bull');
+let embedQueue = new Queue('embed', 'redis://127.0.0.1:6379');
 
 // Getting every commands in the 'commands' folder
 client.commands = new Discord.Collection();
@@ -23,6 +25,11 @@ vm.runInThisContext(fs.readFileSync("./embed/embed_presence_jour.js"))
 
 client.once('ready', () => {
 	console.log('Ready!');
+
+	embedQueue.process((job,done) =>{
+		console.log(job.data);
+
+	});
 });
 
 client.login(env.token);
