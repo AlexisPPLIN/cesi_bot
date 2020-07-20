@@ -1,4 +1,5 @@
 const db = require('../models/index');
+const Op = db.Sequelize.Op;
 const moment = require('moment');
 const Queue = require('bull');
 const env = require('../config.json');
@@ -74,11 +75,16 @@ module.exports = class PresenceSupervisor{
      * @param callback
      */
     registerPeriodToDatabase(callback){
-        db.Periode.findOrCreate({where : {debut: this.start, fin: this.end},defaults: {pre_debut: new Date()}})
-            .then(([periode,created]) =>{
-                this.periode = periode;
-                callback(periode,created);
-            })
+        this.isPeriodOverlapping((isOverlapping) => {
+            if(isOverlapping) callback(null,null,true)
+            else{
+                db.Periode.findOrCreate({where : {debut: this.start, fin: this.end},defaults: {pre_debut: new Date()}})
+                    .then(([periode,created]) =>{
+                        this.periode = periode;
+                        callback(periode,created,false);
+                    })
+            }
+        });
     }
 
     /**
@@ -112,6 +118,19 @@ module.exports = class PresenceSupervisor{
                 limit: 1
             }
         });
+    }
+
+    /**
+     * Check if the current period is overlapping with another period
+     * @param callback
+     */
+    isPeriodOverlapping(callback){
+        db.Periode.findOne({where : {
+            fin : {[Op.gt]: this.start},
+            debut : {[Op.lt]: this.end}
+        }}).then((periode) => {
+            callback(periode !== null);
+        })
     }
 
     /* Embeds */
