@@ -36,7 +36,7 @@ module.exports = {
                 message.channel.send({embed: start_embed});
 
                 // Plan end period embed
-                supervisor.planStartEmbedSend();
+                supervisor.planStartEmbedSend(message.channel.id);
             }
         })
     },

@@ -56,10 +56,11 @@ module.exports = class PresenceSupervisor{
             })
     }
 
-    planStartEmbedSend(){
+    planStartEmbedSend(channel_id){
         let cron = moment(this.start).format("s m k D M d")
 
         embedQueue.add({
+            channel_id : channel_id,
             embed: this.generateStartPeriodEmbed()
         },{
             repeat:{

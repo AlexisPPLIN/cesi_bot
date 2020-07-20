@@ -27,8 +27,11 @@ client.once('ready', () => {
 	console.log('Ready!');
 
 	embedQueue.process((job,done) =>{
-		console.log(job.data);
-
+		console.log("Sending embed to channel "+job.data.channel_id);
+		client.channels.fetch(job.data.channel_id)
+			.then((channel) => {
+				channel.send({embed: job.data.embed});
+			})
 	});
 });
 
