@@ -26,11 +26,13 @@ vm.runInThisContext(fs.readFileSync("./embed/embed_presence_jour.js"))
 client.once('ready', () => {
 	console.log('Ready!');
 
-	embedQueue.process((job,done) =>{
+	// Queue process to send embed in queue with the channel provided
+	embedQueue.process(async (job,done) =>{
 		console.log("Sending embed to channel "+job.data.channel_id);
 		client.channels.fetch(job.data.channel_id)
 			.then((channel) => {
 				channel.send({embed: job.data.embed});
+				done();
 			})
 	});
 });
