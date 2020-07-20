@@ -138,12 +138,10 @@ module.exports = class PresenceSupervisor{
     generatePreStartPeriodEmbed(){
         let date_now = new Date();
         let start_moment = moment(this.start);
-        let description = moment().format('L');
         let text = moment().format('LT')+' - '+start_moment.format('LT')+' (retard enregisté)';
 
         return {
             "title": "Déclaration des présences",
-            "description": description,
             "url": "https://github.com/DevEkode/cesi_bot",
             "color": 10071592,
             "timestamp": date_now.toString(),
@@ -167,10 +165,8 @@ module.exports = class PresenceSupervisor{
 
     generateStartPeriodEmbed(){
         let end_time = moment(this.end).format('LT');
-        let description = moment().format('L');
         return {
             "title": "Fin déclaration des présences",
-            "description": description,
             "url": "https://github.com/DevEkode/cesi_bot",
             "color": 10071592,
             "timestamp": this.start.toString(),
@@ -182,7 +178,7 @@ module.exports = class PresenceSupervisor{
             "fields": [
                 {
                     "name": "Les présences déclarées après ce message sont considéré avec du retard",
-                    "value": "Après "+end_time+" vous serez considérer comme absent"
+                    "value": "Après "+end_time+" vous serez considéré comme absent"
                 }
             ]
         };
