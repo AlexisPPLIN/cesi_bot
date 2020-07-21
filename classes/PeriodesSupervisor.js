@@ -39,28 +39,49 @@ module.exports = class PeriodesSupervisor{
         });
     }
 
+    generatePresenceStat(presences){
+        let nb_presents = 0;
+        let nb_absents = 0;
+        presences.forEach(presences => {
+            let present_id = 1;
+            let absent_id = 2;
+
+            switch (presences.get('StatutId')) {
+                case present_id: nb_presents++; break;
+                case absent_id: nb_absents++; break;
+            }
+        })
+
+        return nb_absents+' / '+nb_presents;
+    }
+
     /**
      * Generate lines for the embed
      * @param periodes
      * @returns {{intervals: string, stats: string, ids: string}}
      */
-    generateEmbedLines(periodes){
+    generateEmbedLines(periodes,callback){
         let result_array = [];
-        periodes.forEach(periode => {
-            let id = periode.get('id');
-            let start = moment(periode.get('debut'));
-            let end = moment(periode.get('fin'));
-            let interval = start.format('LT')+' - '+end.format('LT');
-            let stat = "0 / 0";
+        periodes.forEach((periode,i) => {
+            periode.getPresences().then(presences => {
+                let stat = this.generatePresenceStat(presences);
+                let id = periode.get('id');
+                let start = moment(periode.get('debut'));
+                let end = moment(periode.get('fin'));
+                let interval = start.format('LT')+' - '+end.format('LT');
 
-            let line = {
-                "id" : id,
-                "interval": interval,
-                "stat": stat
-            }
-            result_array.push(line);
+                let line = {
+                    "id" : id,
+                    "interval": interval,
+                    "stat": stat
+                }
+                result_array.push(line);
+
+                if(i >= periodes.length-1){
+                    callback(this.formatLines(result_array));
+                }
+            })
         })
-        return this.formatLines(result_array);
     }
 
     /**
@@ -96,37 +117,38 @@ module.exports = class PeriodesSupervisor{
         this.getPeriodesList(week_periodes => {
             let embed;
             if(week_periodes.length > 0){
-                let lines = this.generateEmbedLines(week_periodes);
-
-                embed =  {
-                    "title": "Périodes du "+title_date,
-                    "description": "Entrez `!viewperiode <ID>` pour obtenir les détails",
-                    "url": "https://github.com/DevEkode/cesi_bot",
-                    "color": 10071592,
-                    "timestamp": new Date(),
-                    "author": {
-                        "name": "CESI Bot",
+                this.generateEmbedLines(week_periodes,lines => {
+                    embed =  {
+                        "title": "Périodes du "+title_date,
+                        "description": "Entrez `!viewperiode <ID>` pour obtenir les détails",
                         "url": "https://github.com/DevEkode/cesi_bot",
-                        "icon_url": "https://puu.sh/G2gn6/c26897ba03.png"
-                    },
-                    "fields": [
-                        {
-                            "name": "ID",
-                            "value": lines['ids'],
-                            "inline": true
+                        "color": 10071592,
+                        "timestamp": new Date(),
+                        "author": {
+                            "name": "CESI Bot",
+                            "url": "https://github.com/DevEkode/cesi_bot",
+                            "icon_url": "https://puu.sh/G2gn6/c26897ba03.png"
                         },
-                        {
-                            "name": "Intervalle",
-                            "value": lines['intervals'],
-                            "inline": true
-                        },
-                        {
-                            "name": "Absents / Présents",
-                            "value": lines['stats'],
-                            "inline": true
-                        }
-                    ]
-                };
+                        "fields": [
+                            {
+                                "name": "ID",
+                                "value": lines['ids'],
+                                "inline": true
+                            },
+                            {
+                                "name": "Intervalle",
+                                "value": lines['intervals'],
+                                "inline": true
+                            },
+                            {
+                                "name": "Absents / Présents",
+                                "value": lines['stats'],
+                                "inline": true
+                            }
+                        ]
+                    };
+                    callback(embed);
+                });
             }else{
                 embed =  {
                     "title": "Périodes du "+title_date,
@@ -145,9 +167,8 @@ module.exports = class PeriodesSupervisor{
                         }
                     ]
                 };
+                callback(embed);
             }
-
-            callback(embed);
         });
 
 
