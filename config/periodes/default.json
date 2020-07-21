@@ -1,0 +1,41 @@
+{
+  "name": "default",
+  "description": "Semaine de cours classique au CESI",
+  "schedule": [
+    {
+      "day": "lundi",
+      "periods": [
+        {"start": "8h45","end": "12h15"},
+        {"start": "13h15","end": "17h00"}
+      ]
+    },
+    {
+      "day": "mardi",
+      "periods": [
+        {"start": "8h45","end": "12h15"},
+        {"start": "13h15","end": "17h00"}
+      ]
+    },
+    {
+      "day": "mercredi",
+      "periods": [
+        {"start": "8h45","end": "12h15"},
+        {"start": "13h15","end": "17h00"}
+      ]
+    },
+    {
+      "day": "jeudi",
+      "periods": [
+        {"start": "8h45","end": "12h15"},
+        {"start": "13h15","end": "17h00"}
+      ]
+    },
+    {
+      "day": "vendredi",
+      "periods": [
+        {"start": "8h45","end": "12h15"},
+        {"start": "13h15","end": "17h00"}
+      ]
+    }
+  ]
+}
