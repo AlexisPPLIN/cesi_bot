@@ -20,6 +20,4 @@ const embed_confirmation_presence_mp = {
       ]
     }
   };
-  console.log("fichier inclu");
-
-  module.exports = embed_confirmation_presence_mp;
+module.exports = embed_confirmation_presence_mp;
