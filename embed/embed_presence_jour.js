@@ -33,3 +33,4 @@ const embed_presence_jour = {
       ]
     }
   };
+  module.exports = embed_presence_jour;
