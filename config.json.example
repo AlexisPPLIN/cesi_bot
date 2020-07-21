@@ -1,5 +1,7 @@
 {
     "debug": false,
 	"prefix": "!",
-	"token": "your-token-goes-here"
+	"token": "your-token-goes-here",
+	"redis_host": "127.0.0.1",
+    "redis_port": 6379
 }

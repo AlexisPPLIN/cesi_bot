@@ -3,6 +3,7 @@
 ## Dependencies
 * Node.js >= 12
 * npm
+* redis
 
 ## Install
 1. `git clone https://github.com/DevEkode/cesi_bot.git`
