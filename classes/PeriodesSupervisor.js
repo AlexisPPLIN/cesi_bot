@@ -10,6 +10,11 @@ module.exports = class PeriodesSupervisor{
         this.date = this.parseDate(date);
     }
 
+    /**
+     * Parse the date argument (DD/MM/YYYY)
+     * @param date
+     * @returns {Date}
+     */
     parseDate(date){
         let parsed_date = moment(date, "DD/MM/YYYY",true);
         if(parsed_date.isValid()) return parsed_date.toDate()
@@ -18,6 +23,10 @@ module.exports = class PeriodesSupervisor{
         }
     }
 
+    /**
+     * Get every time period for the day argument
+     * @param callback
+     */
     getPeriodesList(callback){
         let day_start = moment(this.date).startOf("day").toDate();
         let day_end = moment(this.date).endOf("day").toDate();
@@ -30,6 +39,11 @@ module.exports = class PeriodesSupervisor{
         });
     }
 
+    /**
+     * Generate lines for the embed
+     * @param periodes
+     * @returns {{intervals: string, stats: string, ids: string}}
+     */
     generateEmbedLines(periodes){
         let result_array = [];
         periodes.forEach(periode => {
@@ -49,6 +63,11 @@ module.exports = class PeriodesSupervisor{
         return this.formatLines(result_array);
     }
 
+    /**
+     * Format lines for the embed
+     * @param lines
+     * @returns {{intervals: string, stats: string, ids: string}}
+     */
     formatLines(lines){
         let result = {
             "ids" : "",
@@ -68,6 +87,10 @@ module.exports = class PeriodesSupervisor{
         return result;
     }
 
+    /**
+     * Generate the !viewperiodes embed
+     * @param callback
+     */
     generateViewPeriodesEmbed(callback){
         let title_date = moment(this.date).format('L');
         this.getPeriodesList(week_periodes => {
