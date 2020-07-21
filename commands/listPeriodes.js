@@ -3,8 +3,8 @@ const PeriodesSupervisor = require('../classes/PeriodesSupervisor')
 const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
 
 module.exports = {
-    name: "viewperiodes",
-    aliases: ['vp'],
+    name: "listperiodes",
+    aliases: ['lp'],
     description: "Donne la liste des périodes d'une date donnée",
     args: true,
     usage: "<date dd/mm/yyyy>",
