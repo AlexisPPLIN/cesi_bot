@@ -18,3 +18,5 @@ const embed_fin_declaration_presence =  {
       ]
     }
   }
+
+  module.exports =  embed_fin_declaration_presence;

@@ -17,3 +17,6 @@ const embed_liste_etudiant = {
       ]
     }
   };
+
+
+  module.exports = embed_liste_etudiant;

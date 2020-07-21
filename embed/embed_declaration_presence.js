@@ -22,3 +22,5 @@ const embed_declaration_presence =  {
       ]
     }
   }
+
+  module.exports = embed_declaration_presence;
