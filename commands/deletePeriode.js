@@ -30,7 +30,6 @@ module.exports = {
                     })
                 })
                 .catch((e) => {
-                    throw e;
                     message.channel.send("This period doesn't exists ! ");
                 })
 
