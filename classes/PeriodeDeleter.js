@@ -12,6 +12,11 @@ module.exports = class PeriodeDeleter {
         this.period_id = this.parseArgument(id);
     }
 
+    /**
+     * Validate and parse the Integer
+     * @param id
+     * @returns {number}
+     */
     parseArgument(id) {
         let periode_id = Number(id)
         if (isNaN(periode_id)) {
@@ -20,6 +25,10 @@ module.exports = class PeriodeDeleter {
         return periode_id;
     }
 
+    /**
+     * Delete planned jobs into redis (if they exists)
+     * @param callback
+     */
     deleteJobs(callback) {
         let start_job_id = this.period_id + 's';
         let end_job_id = this.period_id + 'e';
@@ -32,6 +41,10 @@ module.exports = class PeriodeDeleter {
 
     }
 
+    /**
+     * Delete the period from database and redis jobs
+     * @param callback
+     */
     deletePeriode(callback) {
         this.deleteJobs(() => {
             db.Periode.findByPk(this.period_id).then(periode => {
@@ -47,6 +60,11 @@ module.exports = class PeriodeDeleter {
 
     }
 
+    /**
+     * Delete one jobs from redis
+     * @param job_id
+     * @param callback
+     */
     deleteJob(job_id,callback) {
         embedQueue.getDelayed()
             .then(repeatableJobs => {
