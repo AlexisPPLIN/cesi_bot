@@ -4,7 +4,6 @@ const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
 
 module.exports = {
     name: "listperiodes",
-    aliases: ['lp'],
     description: "Donne la liste des périodes d'une date donnée",
     args: true,
     usage: "<date dd/mm/yyyy>",

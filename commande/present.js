@@ -1,4 +1,4 @@
-
+/*
 embed_confirmation_presence_mp =require(__dirname +'/../embed/embed_confirmation_presence_MP.js');
 
 function present(message, client ,MessageMinuscule,db,STATUT) 
@@ -70,8 +70,8 @@ else{
 
 			//compte nombre ligne
 			db.Periode.count({
-				where: { debut:  {
-					[db.Sequelize.Op.between]: [datePeriodeDebut, datePeriodeFin]
+				where: { dateActuel:  {
+					[db.Sequelize.Op.between]: [pre_debut, fin]
 				} },
 				attributes: ['id']
 			}).then(c => {
@@ -142,4 +142,4 @@ else{
 		
 
 
-		module.exports = present;
+		module.exports = present;*/
