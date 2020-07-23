@@ -20,25 +20,43 @@ module.exports = class PeriodeDeleter {
         return periode_id;
     }
 
-    deletePeriode() {
+    deleteJobs(callback) {
         let start_job_id = this.period_id + 's';
         let end_job_id = this.period_id + 'e';
 
-        db.Periode.findByPk(this.period_id).then(periode => {
-            if(periode !== null){
-                //Delete jobs
-                this.deleteJob(start_job_id).then(() => {
-                    this.deleteJob(end_job_id).then(() => {
-                        return db.Periode.destroy({where: {id: this.period_id}})
-                    })
-                })
-            }
+        this.deleteJob(start_job_id,() => {
+            this.deleteJob(end_job_id,() => {
+                callback();
+            });
         });
+
     }
 
-    async deleteJob(job_id) {
-        const repeatableJobs = await embedQueue.getRepeatableJobs();
-        const jobWithId = repeatableJobs.filter(job => job.key.includes(job_id))[0];
-        if (jobWithId) embedQueue.removeRepeatableByKey(jobWithId.key);
+    deletePeriode(callback) {
+        this.deleteJobs(() => {
+            db.Periode.findByPk(this.period_id).then(periode => {
+                if (periode !== null) {
+                    //Delete jobs
+                    db.Periode.destroy({where: {id: this.period_id}})
+                        .then(() => {
+                            callback();
+                        })
+                }
+            });
+        })
+
+    }
+
+    deleteJob(job_id,callback) {
+        embedQueue.getDelayed()
+            .then(repeatableJobs => {
+                const jobWithId = repeatableJobs.filter(job => job.data.jobId === job_id)[0];
+                if (jobWithId) {
+                    jobWithId.remove().then(() => {callback()})
+                }else{
+                    callback();
+                }
+            })
+
     }
 }

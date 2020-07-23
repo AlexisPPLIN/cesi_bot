@@ -16,6 +16,7 @@ module.exports = {
     args: true,
     usage: "<periode ID>",
     execute(message, args) {
+
         //Validate arguments
         try{
             let supervisor = new PeriodeDeleter(args[0]);
@@ -24,12 +25,12 @@ module.exports = {
                 .then(period => {
                     if(period === null) throw new PeriodDoesntExistsError();
 
-                    supervisor.deletePeriode()
-                        .then(() => {
-                            message.channel.send('Period deleted successfully')
-                        })
+                    supervisor.deletePeriode(() => {
+                        message.channel.send('Period deleted successfully')
+                    })
                 })
-                .catch(() => {
+                .catch((e) => {
+                    throw e;
                     message.channel.send("This period doesn't exists ! ");
                 })
 
@@ -41,10 +42,4 @@ module.exports = {
             }
         }
     },
-
-    async deleteJob(queue,id){
-        const repeatableJobs = await queue.getRepeatableJobs();
-        const jobWithId = repeatableJobs.filter(job => job.key.includes(id))[0];
-        if (jobWithId) queue.removeRepeatableByKey(jobWithId.key);
-    }
 }

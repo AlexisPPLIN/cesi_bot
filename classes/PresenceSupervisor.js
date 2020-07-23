@@ -99,10 +99,10 @@ module.exports = class PresenceSupervisor{
         let end_job_id = period_id+'e';
         // Plan start embed
         embedQueue.add({
+            jobId: start_job_id,
             channel_id : channel_id,
             embed: this.generateStartPeriodEmbed()
         },{
-            jobId: start_job_id,
             removeOnComplete: true,
             repeat:{
                 cron: cron_start,
@@ -113,10 +113,10 @@ module.exports = class PresenceSupervisor{
 
         //Plan end embed
         embedQueue.add({
+            jobId: end_job_id,
             channel_id : channel_id,
             embed: this.generateEndPeriodEmbed()
         },{
-            jobId: end_job_id,
             removeOnComplete: true,
             repeat:{
                 cron: cron_end,
