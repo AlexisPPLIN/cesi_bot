@@ -9,7 +9,7 @@ const embed_declaration_presence = require('.\\embed\\embed_declaration_presence
 const embed_fin_declaration_presence = require('.\\embed\\embed_fin_declaration_presence.js');
 
 const Queue = require('bull');
-let embedQueue = new Queue('embed', 'redis://127.0.0.1:6379');
+let embedQueue = new Queue('embed', 'redis://'+env.redis_host+':'+env.redis_port);
 
 // Getting every commands in the 'commands' folder
 client.commands = new Discord.Collection();
