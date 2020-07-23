@@ -91,15 +91,19 @@ module.exports = class PresenceSupervisor{
      * Register the start and end embed into the queue to be displayed later
      * @param channel_id
      */
-    planEmbedSend(channel_id){
+    planEmbedSend(channel_id,period_id){
         let cron_start = moment(this.start).format("s m k D M d")
         let cron_end = moment(this.end).format("s m k D M d")
 
+        let start_job_id = period_id+'s';
+        let end_job_id = period_id+'e';
         // Plan start embed
         embedQueue.add({
             channel_id : channel_id,
             embed: this.generateStartPeriodEmbed()
         },{
+            jobId: start_job_id,
+            removeOnComplete: true,
             repeat:{
                 cron: cron_start,
                 tz: "Europe/Paris",
@@ -112,6 +116,8 @@ module.exports = class PresenceSupervisor{
             channel_id : channel_id,
             embed: this.generateEndPeriodEmbed()
         },{
+            jobId: end_job_id,
+            removeOnComplete: true,
             repeat:{
                 cron: cron_end,
                 tz: "Europe/Paris",
