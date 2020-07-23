@@ -29,6 +29,7 @@ function presences(message, client, MessageMinuscule, db, STATUT) {
         }, {
             model: db.Periode,
             attributes: ['debut', 'fin'],
+           
             required: true,
             right: true,
 
@@ -60,15 +61,8 @@ function presences(message, client, MessageMinuscule, db, STATUT) {
 
 
             var datedebut = new Date(Presence[i].Periode.debut);
-
-
-            console.log(Presence[i].Statut.nom);
-            for (var j = 0; j < Presence.length; j++) {
-
-                if (Presence[i].Statut.nom == Presence[j].Statut.nom ) {
-
-
-                    if (datedebut.getHours() < 13) {
+    
+                    if (datedebut < 13) {
 
                         if (Presence[i].Statut.id == STATUT.RETARD) {
                             ListePresenceMatinChaine = ListePresenceMatinChaine + "✅ (⏰12min)";
@@ -86,28 +80,9 @@ function presences(message, client, MessageMinuscule, db, STATUT) {
                         ListePresenceMatinChaine = ListePresenceMatinChaine + "\n";
 
 
-                    } else {
-
-                        if (Presence[i].Statut.id == STATUT.RETARD) {
-                            ListePresenceApremChaine = ListePresenceApremChaine + "✅ (⏰12min)";
-                        }
-                        else if (Presence[i].Statut.id == STATUT.PRESENT) {
-                            ListePresenceApremChaine = ListePresenceApremChaine + "✅";
-                        }
-                        else if (Presence[i].Statut.id == STATUT.EN_ATTENTE) {
-                            ListePresenceApremChaine = ListePresenceApremChaine + "❔";
-                        }
-                        else if (Presence[i].Statut.id == STATUT.ABSENT) {
-                            ListePresenceApremChaine = ListePresenceApremChaine + "❌";
-                        }
-
-                        ListePresenceApremChaine = ListePresenceApremChaine + "\n";
-
+                   
                     }
-                }
-
-
-            }
+       
 
 
 

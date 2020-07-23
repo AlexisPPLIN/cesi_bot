@@ -32,64 +32,6 @@ module.exports = {
 
 
 
-            if (dateActuel.getDate() < 10) {
-                var jourActuelChaine = "0" + dateActuel.getDate();
-            }
-            else {
-                var jourActuelChaine = dateActuel.getDate();
-            }
-
-
-            if ((dateActuel.getMonth() + 1) < 10) {
-                var moisActuelChaine = "0" + (dateActuel.getMonth() + 1);
-            }
-            else {
-                var moisActuelChaine = (dateActuel.getMonth() + 1);
-            }
-
-
-
-
-
-            if (dateActuel.getHours() < 13) {
-                //date debut periode
-                var datePeriodeDebut = new Date(dateActuel.getFullYear(), dateActuel.getMonth(), dateActuel.getDate(), 8, 45, 0);
-
-                //date fin periode
-                var datePeriodeFin = new Date(dateActuel.getFullYear(), dateActuel.getMonth(), dateActuel.getDate(), 12, 15, 0);
-
-
-                var heureAfficher = jourActuelChaine + "/" + moisActuelChaine + "/" + dateActuel.getFullYear() + " - Matin";
-
-
-                if ((dateActuel.getHours() == 8 && dateActuel.getMinutes() > 45) || dateActuel.getHours() > 8) {
-                    var statutid = STATUT.RETARD;
-
-                }
-                else {
-                    var statutid = STATUT.PRESENT;
-                }
-
-            }
-            else {
-                //date debut periode
-
-                var datePeriodeDebut = new Date(dateActuel.getFullYear(), dateActuel.getMonth(), dateActuel.getDate(), 13, 30, 0);
-                //date fin periode
-
-                var datePeriodeFin = new Date(dateActuel.getFullYear(), dateActuel.getMonth(), dateActuel.getDate(), 17, 0, 0);
-
-
-
-
-                var heureAfficher = jourActuelChaine + "/" + moisActuelChaine + "/" + dateActuel.getFullYear() + " - Après-midi";
-
-
-
-
-
-            }
-           
             //compte nombre ligne
             db.Periode.count({
                 where: { pre_debut: {
@@ -111,8 +53,10 @@ module.exports = {
                             [db.Sequelize.Op.gte]:dateActuel 
                         }
                         },
-                        attributes: ['id']
+                        attributes: ['id','debut','fin','pre_debut']
                     }).then(Periode => {
+                        console.log(dateActuel)
+console.log(Periode.debut)
                         console.log("periode trouver: id n°" + Periode.id);
 
 
@@ -126,10 +70,12 @@ module.exports = {
                                     where: { id_discord: message.author.id },
                                     attributes: ['id', 'prenom', 'nom', 'RoleId']
                                 }).then(Utilisateur => {
+                                   
+                                    console.log( dateActuel.getHours());
 
-                                    if (dateActuel > Periode.debut) {
+                                   var heurechaine = Periode.debut.getHours() +":"+ Periode.debut.getMinutes() +"-"+ Periode.fin.getHours() +":"+ Periode.fin.getMinutes();
+                                    if (dateActuel   >Periode.debut ){
                                         var statutid = STATUT.RETARD;
-                    
                                     }
                                     else {
                                         var statutid = STATUT.PRESENT;
@@ -141,7 +87,7 @@ module.exports = {
 
                                             if (created) {
                                                 embed_confirmation_presence_mp.embed.fields[0].value = Utilisateur.nom + " " + Utilisateur.prenom //modifie le nom /* mettre le nom de la base de donne en fct de l'id
-                                                embed_confirmation_presence_mp.embed.description = heureAfficher
+                                                embed_confirmation_presence_mp.embed.description = heurechaine
                                                 embed_confirmation_presence_mp.embed.timestamp = dateActuel;
                                                 
                                                 //envoi mp confirmation
