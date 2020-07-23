@@ -13,7 +13,6 @@ function presences(message, client, MessageMinuscule, db, STATUT) {
     var datePeriodeFin = new Date(dateActuel.getFullYear(), dateActuel.getMonth(), dateActuel.getDate(), 23, 59, 59);
 
 
-
     db.Presence.findAll({
         where: {
             '$Periode.debut$': {

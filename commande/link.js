@@ -6,8 +6,15 @@ var NomCommande = commandeLink.slice(0, commandeLink.indexOf(' '))//prend la par
 commandeLink = commandeLink.substr(commandeLink.indexOf(' ') + 1);//supprime le debut de la chaine
 
 var PrenomCommande = commandeLink.slice(0, commandeLink.indexOf(' ')) //prend la partie de la chaine a partir de 0 jusqua l'espace
+
 commandeLink = commandeLink.substr(commandeLink.indexOf(' '));
+
+
 var IdDiscordCommande = commandeLink.slice(4, commandeLink.indexOf('>'))//prend la partie de la chaine a partir de 1 jusqua la fin
+
+
+
+
 
 //console.log("essai:/" + NomCommande + "/   prenon:/" + PrenomCommande + "/  id:/" + IdDiscordCommande);
 
