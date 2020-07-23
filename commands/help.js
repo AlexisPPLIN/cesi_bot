@@ -42,7 +42,7 @@ module.exports = {
         let countdown = (command.cooldown || 3)+" seconde(s)"
         let embed = {
             "title": "Aide de la commande `"+command_name+"`",
-            "description": "Démarre une période de déclaration de présence dans ce channel textuel",
+            "description": command.description,
             "url": "https://discordapp.com",
             "color": 10071592,
             "author": {
@@ -65,14 +65,6 @@ module.exports = {
                 }
             ]
         };
-
-        data.push(`**Name:** ${command.name}`);
-
-        if (command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
-        if (command.description) data.push(`**Description:** ${command.description}`);
-        if (command.usage) data.push(`**Usage:** ${env.prefix}${command.name} ${command.usage}`);
-
-        data.push(`**Cooldown:** ${command.cooldown || 3} second(s)`);
 
         message.channel.send( { embed: embed });
     },
