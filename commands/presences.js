@@ -1,11 +1,16 @@
 const appRoot = require('app-root-path');
 const lang = require(appRoot+'/lang/Language');
 
+var moment = require('moment'); // require
+moment().format(); 
+
 const PresenceSupervisor = require('../classes/PresenceSupervisor');
 
+const PeriodDoesntExistsError = require('../Exceptions/PeriodDoesntExistsError')
 const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
 const EndBeforeStartError = require('../Exceptions/EndBeforeStartError')
 const TimeAlreadyPassedError = require('../Exceptions/TimeAlreadyPassedError')
+
 embed_presence_jour = require(__dirname + '/../embed\\embed_presence_jour.js');
 
 
@@ -39,6 +44,13 @@ module.exports = {
 
             //date fin periode
             var datePeriodeFin = new Date(dateActuel.getFullYear(), dateActuel.getMonth(), dateActuel.getDate(), 23, 59, 59);
+
+			db.Periode.count({
+				where: { id: args[0] },
+				attributes: ['id']
+			}).then(compteurperiodePeriode => {
+
+                if(compteurperiodePeriode==0)  { throw new PeriodDoesntExistsError();}
 
             db.Utilisateur.findAll({
                 where: { RoleId: 1 },
@@ -115,23 +127,16 @@ module.exports = {
                                
 
                                     if (Presence[j].Statut.id == STATUT.RETARD) {
-
-
-                                        var tempsMinute = Presence[j].Periode.debut - Presence[j].date_arrive  ;
- 
-    
-                                       // tempsMinute = (Math.floor((tempsMinute-((Math.floor(tempsMinute/1000))% 60))/60)) % 60;    
+                                        var now  = moment(Presence[j].date_arrive);
+                                        var then = moment(Presence[j].Periode.debut );
                                         
-                                        var diff =( Presence[j].Periode.debut.getTime() - Presence[j].date_arrive.getTime()) / 1000;
-                                        diff /= 60;
-                                        tempsMinute=  Math.abs(Math.round(diff))
-                                        diff /= 60;
-                                        tempsheure=  Math.abs(Math.round(diff))
+                                        var ms= moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss")
+                                        
+                                        console.log("test"+ms)
+                                       
 
 
-
-
-                                        ListePresencePeriode1 = ListePresencePeriode1 + "✅ (⏰"+tempsheure+":"+tempsMinute+")";
+                                        ListePresencePeriode1 = ListePresencePeriode1 + "✅ (⏰"+ms+")";
 
 
 
@@ -164,14 +169,16 @@ module.exports = {
 
 
 
-
-
-
+            })}).catch(() => {
+                message.channel.send(lang.get('cmd_deleteperiode_exists'));
             })
 
         } catch (e) {
 
-            console.log("erreur:" + e);
+            if(e instanceof PeriodDoesntExistsError){
+                message.channel.send(lang.get('cmd_deleteperiode_exists'))
+            }
+           // console.log("erreur:" + e);
         }
     },
 }
