@@ -1,18 +1,22 @@
 {
   "name": "cesi_bot",
   "version": "1.0.0",
-  "description": "",
+  "description": "Un bot discord pour gérér les présences des RIL au CESI du Mans",
   "main": "index.js",
   "scripts": {
+    "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "db:init_prod": "npx sequelize-cli db:create --env=production && npx sequelize-cli db:migrate --env=production",
+    "db:init_dev": "npx sequelize-cli db:create --env=development && npx sequelize-cli db:migrate --env=development",
     "db:makemigrations": "makemigration"
   },
-  "author": "",
+  "author": "Alexis POUPELIN, Justin BAHIER",
   "license": "ISC",
   "dependencies": {
     "app-root-path": "^3.0.0",
     "bull": "^3.16.0",
     "cron-parser": "^2.15.0",
+    "cross-env": "^7.0.2",
     "discord.js": "^12.2.0",
     "moment": "^2.27.0",
     "mysql2": "^2.1.0",
