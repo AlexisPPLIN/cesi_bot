@@ -1,3 +1,6 @@
+const appRoot = require('app-root-path');
+const lang = require(appRoot+'/lang/Language');
+
 const PresenceSupervisor = require('../classes/PresenceSupervisor');
 
 const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
@@ -18,9 +21,9 @@ const STATUT = {
 
 module.exports = {
     name: "link",
-    description: "Ajoute l’élève dans la liste des élève qui est dans base.",
+    description: lang.get('cmd_link_desc'),
     args: true,
-    usage: "“!link <nom élève> <prénom élève> <discord>”",
+    usage: lang.get('cmd_link_usage'),
     execute(message, args) {
         //Pass the arguments to the PresenceSupervisor and return errors if needed
         let supervisor;

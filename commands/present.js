@@ -1,3 +1,6 @@
+const appRoot = require('app-root-path');
+const lang = require(appRoot+'/lang/Language');
+
 const PresenceSupervisor = require('../classes/PresenceSupervisor');
 
 const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
@@ -19,7 +22,7 @@ const STATUT = {
 module.exports = {
     name: "present",
     aliases: ['présent','présente','presente'],
-    description: "permet à l’élève de déclarer les présences.envoi un mp à l'élève pour confirmer la présence.",
+    description: lang.get('cmd_present_desc'),
     args: false,
     usage: "",
     execute(message, args) {
@@ -95,7 +98,7 @@ console.log(Periode.debut)
                                                 message.author.send({ embed: embed_confirmation_presence_mp.embed });
                                             }
                                             else {
-                                                message.author.send("erreur vous ete deja pointer");
+                                                message.author.send(lang.get('cmd_present_error_already'));
 
 
                                             }
@@ -103,7 +106,7 @@ console.log(Periode.debut)
 
                                 })
                             }
-                            else { message.author.send("erreur vous ete pas dans la liste des etudiant"); }
+                            else { message.author.send(lang.get('cmd_present_error_not_student')); }
                         });
 
 
@@ -112,7 +115,7 @@ console.log(Periode.debut)
 
                 }
                 else {
-                    message.author.send("erreur vous avez pas cours");
+                    message.author.send(lang.get('cmd_present_error_no_class'));
                 }
 
 
