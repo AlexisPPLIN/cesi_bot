@@ -1,21 +1,20 @@
 'use strict';
-
 const appRoot = require('app-root-path');
 const config_env = require(appRoot+'/config.json');
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const basename = path.basename(__filename);
-const config = require(__dirname + '/../config/config.json')[env];
-const db = {};
-
-
 if(!config_env.debug){
   process.env.NODE_ENV = 'development';
 }else{
   process.env.NODE_ENV = 'production';
 }
 let env = process.env.NODE_ENV || 'development';
+console.log('[DB] Using environment '+env);
+
+const fs = require('fs');
+const path = require('path');
+const Sequelize = require('sequelize');
+const basename = path.basename(__filename);
+const config = require(__dirname + '/../config/config.json')[env];
+const db = {};
 
 let sequelize;
 if (config.use_env_variable) {
