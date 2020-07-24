@@ -10,7 +10,7 @@ const TimeAlreadyPassedError = require('../Exceptions/TimeAlreadyPassedError')
 module.exports = {
     name: "askpresences",
     aliases: ['ap'],
-    description: lang.get('cmd_askpresences_title'),
+    description: lang.get('cmd_askpresences_desc'),
     args: true,
     usage: lang.get('cmd_askpresences_usage'),
     execute(message, args) {

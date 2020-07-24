@@ -4,7 +4,7 @@ const fs = require("fs");
 
 class Language {
     constructor() {
-        this.default = "en";
+        this.default = "fr";
         this.langArray = this.getLangArray(env.lang)
     }
 

@@ -1,3 +1,6 @@
+const appRoot = require('app-root-path');
+const lang = require(appRoot+'/lang/Language');
+
 const PresenceSupervisor = require('../classes/PresenceSupervisor');
 
 const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
@@ -18,7 +21,7 @@ const STATUT = {
 
 module.exports = {
     name: "liste",
-    description: "affiche la liste des élève de la promo dans la base de donnée",
+    description: lang.get('cmd_liste_desc'),
     args: false,
     usage: "",
     execute(message, args) {

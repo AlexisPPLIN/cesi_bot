@@ -1,3 +1,6 @@
+const appRoot = require('app-root-path');
+const lang = require(appRoot+'/lang/Language');
+
 const PresenceSupervisor = require('../classes/PresenceSupervisor');
 
 const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
@@ -19,9 +22,9 @@ const STATUT = {
 module.exports = {
     name: "presences",
     aliases: ['viewperiode ', 'présences'],
-    description: "envoi un mp à l’intervenant avec tous les absent, les present et les retard",
+    description: lang.get('cmd_presences_desc'),
     args: true,
-    usage: "!présences [date] [matin/aprem]",
+    usage: lang.get('cmd_presences_usage'),
     execute(message, args) {
 
         try {
