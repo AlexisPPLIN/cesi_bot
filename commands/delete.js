@@ -24,13 +24,42 @@ module.exports = {
     usage: lang.get('cmd_delete_usage'),
     execute(message, args) {
         try {
-            var PrenomCommande = args[0];
-            console.log(args);
-            var IdDiscordCommande = args[1];
-            console.log(IdDiscordCommande);
-            db.Utilisateur.findOne({where: {id_discord: IdDiscordCommande}}).then(Utilisateur => {
-                return Utilisateur.destroy();
+          //  var PrenomUtilisateur = args[0];
+
+          var IdDiscordUtilisateur = args[0];
+
+          if (IdDiscordUtilisateur.startsWith('<@') && IdDiscordUtilisateur.endsWith('>')) {
+              IdDiscordUtilisateur = IdDiscordUtilisateur.slice(2, -1);
+
+              if (IdDiscordUtilisateur.startsWith('!')) {
+                  IdDiscordUtilisateur = IdDiscordUtilisateur.slice(1);
+              }
+
+          }
+
+            
+          if(IdDiscordUtilisateur!=0 && !IdDiscordUtilisateur.startsWith('&') && IdDiscordUtilisateur!='@here' &&IdDiscordUtilisateur!='@everyone'){
+           
+            db.Utilisateur.findOne({where: {id_discord: IdDiscordUtilisateur}}).then(Utilisateur => {
+                
+                if (Utilisateur==null) {
+                    message.channel.send(lang.get('cmd_delete_error_exists'));
+                }
+                else {
+                    message.channel.send(lang.get('cmd_delete_success'));
+                    return Utilisateur.destroy();
+                   
+                }
+
+
+
+
+             
             });
+
+        }  else
+        {message.channel.send(lang.get('cmd_link_error_autre_mention'));}
+
         } catch (e) {
             console.log("erreur:" + e);
         }
