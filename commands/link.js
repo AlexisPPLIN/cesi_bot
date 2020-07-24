@@ -1,5 +1,5 @@
 const appRoot = require('app-root-path');
-const lang = require(appRoot+'/lang/Language');
+const lang = require(appRoot + '/lang/Language');
 
 const PresenceSupervisor = require('../classes/PresenceSupervisor');
 
@@ -11,11 +11,13 @@ embed_confirmation_presence_mp = require(__dirname + '/../embed/embed_confirmati
 
 const db = require('..\\models\\index');
 const STATUT = {
-	RETARD: 1,
-	PRESENT: 2,
-	EN_ATTENTE: 3,
-	ABSENT: 4
+    RETARD: 1,
+    PRESENT: 2,
+    EN_ATTENTE: 3,
+    ABSENT: 4
 };
+
+
 
 
 
@@ -27,22 +29,42 @@ module.exports = {
     execute(message, args) {
         //Pass the arguments to the PresenceSupervisor and return errors if needed
         let supervisor;
-     try {
-            
-        NomCommande = args[0];
-            
-            var PrenomCommande = args[1];
-                   
-            var IdDiscordCommande =  args[2];
-            
+        try {
+
+            var NomUtilisateur = args[0];
+
+            var PrenomUtilisateur = args[1];
+
+            var IdDiscordUtilisateur = args[2];
+
+            if (IdDiscordUtilisateur.startsWith('<@') && IdDiscordUtilisateur.endsWith('>')) {
+                IdDiscordUtilisateur = IdDiscordUtilisateur.slice(2, -1);
+
+                if (IdDiscordUtilisateur.startsWith('!')) {
+                    IdDiscordUtilisateur = IdDiscordUtilisateur.slice(1);
+                }
+
+            }
+
+            if(IdDiscordUtilisateur!=0 && !IdDiscordUtilisateur.startsWith('&') && IdDiscordUtilisateur!='@here' &&IdDiscordUtilisateur!='@everyone'){
+
             db.Utilisateur
-    .findOrCreate({ where: { id_discord: IdDiscordCommande }, defaults: { nom: NomCommande, prenom: PrenomCommande, RoleId: '1' } })
-    .then(([Utilisateur, created]) => {
+                .findOrCreate({ where: { id_discord: IdDiscordUtilisateur }, defaults: { nom: NomUtilisateur, prenom: PrenomUtilisateur, RoleId: '1' } })
+                .then(([Utilisateur, created]) => {
+                    if (created) {
+                        message.channel.send(lang.get('cmd_link_success'));
+                    }
+                    else {
+
+                        message.channel.send(lang.get('cmd_link_error_exists'));
+                    }
 
 
-    })
+                })
+            }
+            else
+            {message.channel.send(lang.get('cmd_link_error_autre_mention'));}
 
-       
         } catch (e) {
 
             console.log("erreur:" + e);

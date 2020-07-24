@@ -34,6 +34,11 @@ module.exports = {
     'cmd_present_error_no_class': 'Il n\'y a aucun cours en ce moment',
     'cmd_present_error_already': 'Vous avez déja déclaré votre présence pour ce cours',
     'cmd_present_embed_title': 'Confirmation déclaration de présence',
+    'cmd_link_success': 'Cet élève est bien Ajouté à la liste !',
+    'cmd_link_error_exists': 'Cet élève existe déja !',
+    'cmd_link_error_autre_mention': 'Merci de mettre une mention d\'un utilisateur !',
+    'cmd_delete_success': 'Cet élève est bien Supprimé de la liste !',
+    'cmd_delete_error_exists': 'Cet élève n\'existe pas!',
 
     // Exceptions
     'exception_argument_format': "Un des arguments n'a pas été bien formaté",
