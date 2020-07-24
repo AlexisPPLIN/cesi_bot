@@ -2,7 +2,7 @@ const appRoot = require('app-root-path');
 const env = require(appRoot+'/config.json');
 const fs = require("fs");
 
-module.exports = class Language {
+class Language {
     constructor() {
         this.default = "en";
         this.langArray = this.getLangArray(env.lang)
@@ -24,3 +24,5 @@ module.exports = class Language {
         else return value;
     }
 }
+
+module.exports = new Language();
