@@ -4,8 +4,8 @@ const Discord = require('discord.js');
 const env = require(appRoot+'/config.json');
 const client = new Discord.Client();
 const db = require(appRoot+'/models/index');
-const Language = require(appRoot+'/lang/Language');
-const lang = new Language();
+const lang = require(appRoot+'/lang/Language');
+
 
 const fs = require("fs");
 const vm = require('vm');

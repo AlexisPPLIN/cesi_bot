@@ -1,3 +1,6 @@
+const appRoot = require('app-root-path');
+const lang = require(appRoot+'/lang/Language');
+
 const PresenceSupervisor = require('../classes/PresenceSupervisor');
 
 const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
@@ -7,9 +10,9 @@ const TimeAlreadyPassedError = require('../Exceptions/TimeAlreadyPassedError')
 module.exports = {
     name: "askpresences",
     aliases: ['ap'],
-    description: "Démarre une période de déclaration de présence dans ce channel textuel",
+    description: lang.get('cmd_askpresences_title'),
     args: true,
-    usage: "<heure:minutes début> <heure:minutes fin>",
+    usage: lang.get('cmd_askpresences_usage'),
     execute(message, args) {
         //Pass the arguments to the PresenceSupervisor and return errors if needed
         let supervisor;
@@ -19,9 +22,9 @@ module.exports = {
             // Use the PresenceSupervisor to register the periode to database
             supervisor.registerPeriodToDatabase((periode, created, overlap) => {
                 if (overlap) {
-                    message.channel.send('Cannot overlap two time period !');
+                    message.channel.send(lang.get('cmd_askpresences_error_overlap'));
                 } else if (!created) {
-                    message.channel.send("This time period already exists !");
+                    message.channel.send(lang.get('cmd_askpresences_error_exists'));
                 }else{
                     // Send the embed
                     let start_embed = supervisor.generatePreStartPeriodEmbed();
@@ -33,11 +36,11 @@ module.exports = {
             })
         } catch (e) {
             if (e instanceof ArgumentValidationError) {
-                message.channel.send('One of the argument was not formatted correctly (HH:MM)');
+                message.channel.send(lang.get('exception_argument_format')+' (HH:MM)');
             } else if (e instanceof EndBeforeStartError) {
-                message.channel.send('The end time is before the start time !');
+                message.channel.send(lang.get('exception_end_before_start'));
             } else if (e instanceof TimeAlreadyPassedError) {
-                message.channel.send('This time period already passed !');
+                message.channel.send(lang.get('exception_time_passed'));
             }
         }
     },
