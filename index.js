@@ -5,8 +5,6 @@ const db = require('.\\models\\index');
 
 const fs = require("fs");
 const vm = require('vm');
-const embed_declaration_presence = require('.\\embed\\embed_declaration_presence.js');
-const embed_fin_declaration_presence = require('.\\embed\\embed_fin_declaration_presence.js');
 
 const Queue = require('bull');
 let embedQueue = new Queue('embed', 'redis://'+env.redis_host+':'+env.redis_port);
@@ -14,21 +12,14 @@ let embedQueue = new Queue('embed', 'redis://'+env.redis_host+':'+env.redis_port
 // Getting every commands in the 'commands' folder
 client.commands = new Discord.Collection();
 console.log("test");
-const commandFiles = fs.readdirSync('cesi_bot\\commands').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('commands').filter(file => file.endsWith('.js'));
 console.log("test"+commandFiles);
 for (const file of commandFiles) {
-	const command = require(`.\\commands\\${file}`);
+	const command = require(`./commands/${file}`);
 	// set a new item in the Collection
 	// with the key as the command name and the value as the exported module
 	client.commands.set(command.name, command);
 }
-
-
-const present = require('.\\commande\\present.js');
-const liste_eleve = require('.\\commande\\liste_eleve.js');
-const presences = require('.\\commande\\presences.js');
-const link = require('.\\commande\\link.js');
-const deleteEtudiant = require('.\\commande\\delete.js');
 
 const STATUT = {
 	RETARD: 1,
@@ -78,41 +69,6 @@ client.on('message', message => {
 		command.execute(message, args);
 	}catch(error){
 		console.log(error);
-	}
-
-	let MessageMinuscule = message.content.toLowerCase()//afin de pas prendre en compte les majuscule ou minuscule
-
-	if (message.author.id !== client.user.id)//pour ignorer les msg du bot
-	{
-
-		/*if (MessageMinuscule === '!help') {
-			//afficher la liste des comande dans un embed
-		}*/
-
-
-		/*if (MessageMinuscule === '!présent' || MessageMinuscule === '!présente' || MessageMinuscule === '!present' || MessageMinuscule === '!presente') {
-			present(message, client ,MessageMinuscule,db,STATUT);
-		}*/
-
-
-		/*if (MessageMinuscule === '!liste élève') {
-			liste_eleve(message, client ,MessageMinuscule,db,STATUT);
-		}*/
-
-
-		/*if (MessageMinuscule.slice(0, 10) === '!présences' || MessageMinuscule.slice(0, 10) === '!presences'  ) {//si message commence par !présences
-			presences(message, client ,MessageMinuscule,db,STATUT);
-		}*/
-
-	/*	if (MessageMinuscule.slice(0, 5) === '!link') {//si message commence par !link
-			link(message, client ,MessageMinuscule,db,STATUT);
-		}*/
-
-
-		/*if (MessageMinuscule.slice(0, 7) == '!delete') {//si message commence par !delete
-			deleteEtudiant(message, client ,MessageMinuscule,db,STATUT);
-		}*/
-
 	}
 
 });
