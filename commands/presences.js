@@ -1,8 +1,8 @@
 const appRoot = require('app-root-path');
-const lang = require(appRoot+'/lang/Language');
+const lang = require(appRoot + '/lang/Language');
 
 var moment = require('moment'); // require
-moment().format(); 
+moment().format();
 
 const PresenceSupervisor = require('../classes/PresenceSupervisor');
 
@@ -45,101 +45,87 @@ module.exports = {
             //date fin periode
             var datePeriodeFin = new Date(dateActuel.getFullYear(), dateActuel.getMonth(), dateActuel.getDate(), 23, 59, 59);
 
-			db.Periode.count({
-				where: { id: args[0] },
-				attributes: ['id']
-			}).then(compteurperiodePeriode => {
+            db.Periode.count({
+                where: { id: args[0] },
+                attributes: ['id']
+            }).then(compteurperiodePeriode => {
 
-                if(compteurperiodePeriode==0)  { throw new PeriodDoesntExistsError();}
 
-            db.Utilisateur.findAll({
-                where: { RoleId: 1 },
-                attributes: ['id', 'prenom', 'nom', 'RoleId']
-            }).then(Utilisateur => {
 
-                var listePrenomEtudiant = [];
-                var listeIDEtudiant = [];
-                var listeNomEtudiant = [];
-                for (var i = 0; i < Utilisateur.length; i++) {
-                    listePrenomEtudiant.push(Utilisateur[i].prenom)
-                    listeNomEtudiant.push(Utilisateur[i].nom)
-                    listeIDEtudiant.push(Utilisateur[i].id)
-                }
-                db.Presence.findAll({
-                    where: {
-                        '$Periode.id$': args[0]
 
-                    },
-                    attributes: ['date_arrive'],
-                    include: [{
-                        model: db.Statut,
-                        attributes: ['id', 'nom'],
-                        required: true,
-                        right: true
-                    }, {
-                        model: db.Periode,
-                        attributes: ['debut', 'fin'],
+
+                if (compteurperiodePeriode == 0) { throw new PeriodDoesntExistsError(); }
+
+                //  if (compteurperiodePeriode != 0) {
+
+
+                db.Utilisateur.findAll({// pour calculer la liste des utilisateur
+                    where: { RoleId: 1 },
+                    attributes: ['id', 'prenom', 'nom', 'RoleId']
+                }).then(Utilisateur => {
+
+                    var listePrenomEtudiant = [];
+                    var listeIDEtudiant = [];
+                    var listeNomEtudiant = [];
+                    for (var i = 0; i < Utilisateur.length; i++) {
+                        listePrenomEtudiant.push(Utilisateur[i].prenom)
+                        listeNomEtudiant.push(Utilisateur[i].nom)
+                        listeIDEtudiant.push(Utilisateur[i].id)
+                    }
+
+
+
+                    db.Presence.findAll({
                         where: {
-                            pre_debut: {
-                                [db.Sequelize.Op.lte]: dateActuel
-                            }, fin: {
-                                [db.Sequelize.Op.gte]: dateActuel
-                            }
+                            '$Periode.id$': args[0]
                         },
-                        required: true,
-                        right: true,
+                        attributes: ['date_arrive'],
+                        include: [{
+                            model: db.Statut,
+                            attributes: ['id', 'nom'],
+                            required: true,
+                            right: true
+                        }, {
+                            model: db.Periode,
+                            attributes: ['id', 'debut', 'fin'],
+                            required: true,
+                            right: true,
 
-                    }, {
-                        model: db.Utilisateur,
-                        attributes: ['id','prenom', 'nom', 'id_discord'],
-                        where: { RoleId: 1 },
-                        required: true,
-                        right: true
+                        }, {
+                            model: db.Utilisateur,
+                            attributes: ['id', 'prenom', 'nom', 'id_discord'],
+                            where: { RoleId: 1 },
+                            required: true,
+                            right: true
 
-                    }]
+                        }]
 
-                }).then(Presence => {
+                    }).then(Presence => {
+                     
+                        var ListeEtudiantChaine = "";
+                        
 
-                    var ListeEtudiantChaine = "";
-                    var dateActuel = new Date();
+                        var ListePresencePeriode1 = "";
+                        var ListePresencePeriode2 = "";
 
-                    var ListePresencePeriode1 = "";
-                    var ListePresencePeriode2 = "";
+                        for (var i = 0; i < listeIDEtudiant.length; i++) {
+                            for (var j = 0; j < Presence.length; j++) {
 
-                    for (var i = 0; i < listeIDEtudiant.length; i++) {
-                        for (var j = 0; j < Presence.length; j++) {
+                                if (listeIDEtudiant[i] == Presence[j].Utilisateur.id) {
 
-                            console.log(listeIDEtudiant[i])
-                            console.log(Presence[j].Utilisateur.id)
-
-
-                            if (listeIDEtudiant[i] == Presence[j].Utilisateur.id) {
-                                console.log(listeIDEtudiant[i])
-                                ListeEtudiantChaine = ListeEtudiantChaine + "🎓" + Presence[j].Utilisateur.nom + " " + Presence[j].Utilisateur.prenom + "\n";
+                                    ListeEtudiantChaine = ListeEtudiantChaine + "🎓" + Presence[j].Utilisateur.nom + " " + Presence[j].Utilisateur.prenom + "\n";
 
 
-                                var datedebut = new Date(Presence[j].Periode.debut);
+                                    var datedebut = new Date(Presence[j].Periode.debut);
 
-
-                                console.log(Presence[j].Statut.nom);
-
-                      
-                               
 
                                     if (Presence[j].Statut.id == STATUT.RETARD) {
-                                        var now  = moment(Presence[j].date_arrive);
-                                        var then = moment(Presence[j].Periode.debut );
-                                        
-                                        var ms= moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss")
-                                        
-                                        console.log("test"+ms)
-                                       
+                                        var now = moment(Presence[j].date_arrive);
+                                        var then = moment(Presence[j].Periode.debut);
 
+                                        var ms = moment.utc(moment(now, "DD/MM/YYYY HH:mm:ss").diff(moment(then, "DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss")
 
-                                        ListePresencePeriode1 = ListePresencePeriode1 + "✅ (⏰"+ms+")";
-
-
-
+                                        ListePresencePeriode1 = ListePresencePeriode1 + "✅ (⏰" + ms + ")";
                                     }
                                     else if (Presence[j].Statut.id == STATUT.PRESENT) {
                                         ListePresencePeriode1 = ListePresencePeriode1 + "✅";
@@ -150,35 +136,40 @@ module.exports = {
                                     else if (Presence[j].Statut.id == STATUT.ABSENT) {
                                         ListePresencePeriode1 = ListePresencePeriode1 + "❌";
                                     }
-                                 
+
                                     ListePresencePeriode1 = ListePresencePeriode1 + "\n";
 
 
-                                    var heurechaine = Presence[j].Periode.debut.getHours() +":"+ Presence[j].Periode.debut.getMinutes() +"-"+ Presence[j].Periode.fin.getHours() +":"+ Presence[j].Periode.fin.getMinutes();
+                                    var heurechaine = Presence[j].Periode.debut.getHours() + ":" + Presence[j].Periode.debut.getMinutes() + "-" + Presence[j].Periode.fin.getHours() + ":" + Presence[j].Periode.fin.getMinutes();
+                                }
                             }
                         }
-                    }
-                    console.log(ListePresencePeriode1);
-                    //console.log("test:" + ListePresencePeriode2);
-                    embed_presence_jour.embed.fields[1].value = ListePresencePeriode1;
-                    embed_presence_jour.embed.fields[1].name= heurechaine
-                    embed_presence_jour.embed.fields[0].value = ListeEtudiantChaine;
-                    message.channel.send({ embed: embed_presence_jour.embed });
+                        embed_presence_jour.embed.fields[1].value = ListePresencePeriode1;
+                        embed_presence_jour.embed.fields[1].name = heurechaine
+                        embed_presence_jour.embed.fields[0].value = ListeEtudiantChaine;
+                        message.channel.send({ embed: embed_presence_jour.embed });
+                    }).catch(() => {
+                        console.log("erreur inconu");
+                    })
+
+
+
+
+                }).catch(() => {
+                    console.log("erreur inconu");
                 })
 
-
-
-
-            })}).catch(() => {
+                // }
+            }).catch(() => {
                 message.channel.send(lang.get('cmd_deleteperiode_exists'));
             })
 
         } catch (e) {
 
-            if(e instanceof PeriodDoesntExistsError){
+            if (e instanceof PeriodDoesntExistsError) {
                 message.channel.send(lang.get('cmd_deleteperiode_exists'))
             }
-           // console.log("erreur:" + e);
+            // console.log("erreur:" + e);
         }
     },
 }
