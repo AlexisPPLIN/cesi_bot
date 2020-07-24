@@ -21,11 +21,11 @@ const embed_presence_jour = {
           value: "✅ (⏰12min)\n✅\n✅",
           inline: true
         },
-        {
+       /* {
           name: "Après-midi",
           value: "✅\n❌\n❔",
           inline: true
-        },
+        },*/
         {
           name: "Légende",
           value: "✅ Présent\n❔ En attente\n❌ Absent\n⏰ Retard (temps)"
