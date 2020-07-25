@@ -3,9 +3,9 @@ const lang = require(appRoot+'/lang/Language');
 const moment = require('moment');
 moment.locale('fr')
 
-const PeriodesSupervisor = require('../classes/PeriodesSupervisor')
+const PeriodesSupervisor = require(appRoot+'/classes/PeriodesSupervisor')
 
-const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
+const ArgumentValidationError = require(appRoot+'/Exceptions/ArgumentValidationError')
 
 module.exports = {
     name: "listperiodes",
