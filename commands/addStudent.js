@@ -2,7 +2,9 @@ const appRoot = require('app-root-path');
 const lang = require(appRoot + '/lang/Language');
 
 const PresenceSupervisor = require('../classes/PresenceSupervisor');
+const PermissionsManager = require('../classes/PermissionsManager');
 
+const NotAllowedError = require('../Exceptions/NotAllowedError')
 const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
 const EndBeforeStartError = require('../Exceptions/EndBeforeStartError')
 const TimeAlreadyPassedError = require('../Exceptions/TimeAlreadyPassedError')
@@ -18,21 +20,23 @@ const STATUT = {
     ABSENT: 4
 };
 
-
-
-
-
 module.exports = {
-    name: "link",
-    aliases: ['add'],
+    name: "addstudent",
+    aliases: ['as'],
     description: lang.get('cmd_link_desc'),
     args: true,
     usage: lang.get('cmd_link_usage'),
     execute(message, args) {
+        // Check permissions
+        if(!new PermissionsManager().hasPermission(message)) {
+            message.channel.send(lang.get('exception_not_allowed'));
+            return;
+        }
+
         //Pass the arguments to the PresenceSupervisor and return errors if needed
         let supervisor;
         try {
-if(args.length !=3 )  throw new ArgumentValidationError(args);
+            if(args.length !=3 )  throw new ArgumentValidationError(args);
             var NomUtilisateur = args[0];
 
             var PrenomUtilisateur = args[1];
@@ -46,8 +50,6 @@ if(args.length !=3 )  throw new ArgumentValidationError(args);
                     IdDiscordUtilisateur = IdDiscordUtilisateur.slice(1);
                 }
 
-           
-
             if(IdDiscordUtilisateur!=0 && !IdDiscordUtilisateur.startsWith('&') && IdDiscordUtilisateur!='@here' &&IdDiscordUtilisateur!='@everyone'){
 
             db.Utilisateur
@@ -57,11 +59,8 @@ if(args.length !=3 )  throw new ArgumentValidationError(args);
                         message.channel.send(lang.get('cmd_link_success'));
                     }
                     else {
-
                         message.channel.send(lang.get('cmd_link_error_exists'));
                     }
-
-
                 })
             }
             else

@@ -6,6 +6,7 @@ const client = new Discord.Client();
 const db = require(appRoot+'/models/index');
 const lang = require(appRoot+'/lang/Language');
 
+const PresenceSupevisor = require(appRoot+'/classes/PresenceSupervisor');
 
 const fs = require("fs");
 const vm = require('vm');
@@ -30,11 +31,20 @@ client.once('ready', () => {
 
 	// Queue process to send embed in queue with the channel provided
 	embedQueue.process(async (job,done) =>{
-		console.log("Sending embed to channel "+job.data.channel_id);
+		// Get the channel
 		client.channels.fetch(job.data.channel_id)
 			.then((channel) => {
-				channel.send({embed: job.data.embed});
-				done();
+				console.log("Sending embed to channel "+job.data.channel_id);
+				// Check if the embed was the end
+				if(job.data.end){
+					PresenceSupevisor.setNoResponseStudentToAbsent(job.data.period_id,() => {
+						channel.send({embed: job.data.embed});
+						done();
+					})
+				}else{
+					channel.send({embed: job.data.embed});
+					done();
+				}
 			})
 	});
 });

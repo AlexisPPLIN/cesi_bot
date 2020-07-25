@@ -4,7 +4,6 @@ const embed_presence_jour = {
       description: "13/06/2020",
       url: "https://github.com/DevEkode/cesi_bot",
       color: 10071592,
-      timestamp: "2020-06-13T10:05:38.205Z",
       author: {
         name: "CESI Bot",
         url: "https://github.com/DevEkode/cesi_bot",
