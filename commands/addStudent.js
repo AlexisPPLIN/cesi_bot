@@ -42,8 +42,6 @@ if(args.length !=3 )  throw new ArgumentValidationError(args);
                     IdDiscordUtilisateur = IdDiscordUtilisateur.slice(1);
                 }
 
-           
-
             if(IdDiscordUtilisateur!=0 && !IdDiscordUtilisateur.startsWith('&') && IdDiscordUtilisateur!='@here' &&IdDiscordUtilisateur!='@everyone'){
 
             db.Utilisateur

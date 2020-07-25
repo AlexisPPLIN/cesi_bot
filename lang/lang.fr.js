@@ -27,7 +27,7 @@ module.exports = {
     'cmd_liste_desc': 'Affiche la liste des élève de la promo dans la base de donnée',
     'cmd_list_aucun': 'Aucun élève enregistré, utilisez `!link`',
     'cmd_listperiodes_desc': 'Donne la liste des périodes d\'une date donnée',
-    'cmd_listperiodes_usage': '<date dd/mm/yyyy>',
+    'cmd_listperiodes_usage': '[date dd/mm/yyyy]',
     'cmd_presences_desc': 'Envoi un mp à l’intervenant avec tous les absent, les present et les retard',
     'cmd_presences_usage': '<ID>',
     'cmd_present_desc': 'permet à l’élève de déclarer les présences.envoi un mp à l\'élève pour confirmer la présence.',
@@ -45,7 +45,8 @@ module.exports = {
     'exception_argument_format': "Un des arguments n'a pas été bien formaté",
     'exception_end_before_start': "Le temps de fin se trouve avant le temps de début !",
     'exception_time_passed': "Cette période c'est déja déroulée",
-    'cmd_AucunEleveError': "Il n\'y a aucun élève a cette période !",
+    'cmd_AucunEleveError': "Il n'y a aucun élève a cette période !",
+    'exception_too_many_arguments' : "Vous avez dépassé le nombre d'argument maximal pour cette commande !",
 
     // Others
     'student' : 'Étudiant'
