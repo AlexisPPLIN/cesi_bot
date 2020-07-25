@@ -104,6 +104,21 @@ module.exports = class PresenceSupervisor{
             })
     }
 
+    static setNoResponseStudentToAbsent(period_id,callback){
+        db.Periode.findByPk(period_id)
+            .then(periode => {
+                periode.getPresences({ where: {StatutId : 3} })
+                    .then(presences => {
+                        presences.forEach((presence,index) => {
+                            db.Presence.update({StatutId : 2},{where:{id : presence.get('id')}})
+                                .then(() => {
+                                    if(index >= presences.length-1) callback();
+                                })
+                        })
+                    })
+            })
+    }
+
     /**
      * Register the start and end embed into the queue to be displayed later
      * @param channel_id
@@ -116,6 +131,8 @@ module.exports = class PresenceSupervisor{
         let end_job_id = period_id+'e';
         // Plan start embed
         embedQueue.add({
+            end : false,
+            period_id : period_id,
             jobId: start_job_id,
             channel_id : channel_id,
             embed: this.generateStartPeriodEmbed()
@@ -130,6 +147,8 @@ module.exports = class PresenceSupervisor{
 
         //Plan end embed
         embedQueue.add({
+            end : true,
+            period_id : period_id,
             jobId: end_job_id,
             channel_id : channel_id,
             embed: this.generateEndPeriodEmbed()
