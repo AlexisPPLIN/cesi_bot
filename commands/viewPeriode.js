@@ -24,7 +24,7 @@ const STATUT = {
 };
 
 module.exports = {
-    name: "viewPeriode",
+    name: "viewperiode",
     aliases: ['vp'],
     description: lang.get('cmd_presences_desc'),
     args: true,

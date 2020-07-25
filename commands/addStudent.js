@@ -19,8 +19,8 @@ const STATUT = {
 };
 
 module.exports = {
-    name: "addEleve",
-    aliases: ['ae'],
+    name: "addstudent",
+    aliases: ['as'],
     description: lang.get('cmd_link_desc'),
     args: true,
     usage: lang.get('cmd_link_usage'),
