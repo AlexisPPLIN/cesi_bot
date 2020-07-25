@@ -26,7 +26,7 @@ const STATUT = {
 
 module.exports = {
     name: "presences",
-    aliases: ['viewperiode ', 'présences'],
+    aliases: ['viewperiode ', 'présences','presence'],
     description: lang.get('cmd_presences_desc'),
     args: true,
     usage: lang.get('cmd_presences_usage'),
@@ -35,6 +35,7 @@ module.exports = {
         try {
 
 
+            if(args.length !=1 )  throw new ArgumentValidationError(args);
 
 
             var dateActuel = new Date();
@@ -165,8 +166,10 @@ module.exports = {
             })
 
         } catch (e) {
-
-            if (e instanceof PeriodDoesntExistsError) {
+            if(e instanceof ArgumentValidationError){
+                message.channel.send(lang.get('exception_argument_format'))
+            }
+            else if (e instanceof PeriodDoesntExistsError) {
                 message.channel.send(lang.get('cmd_deleteperiode_exists'))
             }
             // console.log("erreur:" + e);

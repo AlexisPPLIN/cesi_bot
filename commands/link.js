@@ -6,6 +6,7 @@ const PresenceSupervisor = require('../classes/PresenceSupervisor');
 const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
 const EndBeforeStartError = require('../Exceptions/EndBeforeStartError')
 const TimeAlreadyPassedError = require('../Exceptions/TimeAlreadyPassedError')
+
 embed_confirmation_presence_mp = require(__dirname + '/../embed/embed_confirmation_presence_MP.js');
 
 
@@ -23,6 +24,7 @@ const STATUT = {
 
 module.exports = {
     name: "link",
+    aliases: ['add'],
     description: lang.get('cmd_link_desc'),
     args: true,
     usage: lang.get('cmd_link_usage'),
@@ -30,7 +32,7 @@ module.exports = {
         //Pass the arguments to the PresenceSupervisor and return errors if needed
         let supervisor;
         try {
-
+if(args.length !=3 )  throw new ArgumentValidationError(args);
             var NomUtilisateur = args[0];
 
             var PrenomUtilisateur = args[1];
@@ -66,7 +68,9 @@ module.exports = {
             {message.channel.send(lang.get('cmd_link_error_autre_mention'));}
 
         } catch (e) {
-
+            if(e instanceof ArgumentValidationError){
+                message.channel.send(lang.get('exception_argument_format'))
+            }
             console.log("erreur:" + e);
         }
     },
