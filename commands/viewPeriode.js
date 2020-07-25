@@ -58,7 +58,7 @@ module.exports = {
 
                                                     let ms = moment.utc(moment(now, "DD/MM/YYYY HH:mm:ss").diff(moment(then, "DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss")
 
-                                                    listeStatut += "✅ (⏰" + ms + ")";
+                                                    listeStatut += "✅ (⏰" + ms + ")\n";
                                                 } else {
                                                     // Présent, a l'heure
                                                     listeStatut += "✅\n"
