@@ -6,11 +6,11 @@ const embed_confirmation_presence_mp = {
       
       author: {
        name: "CESI Bot",
-        url: "https://discordapp.com",
-        icon_url: "https://i.insider.com/5e5d2aa1fee23d10847a28f8?width=750&format=jpeg&auto=webp"
+        url: "https://github.com/DevEkode/cesi_bot",
+        icon_url: "https://puu.sh/G2gn6/c26897ba03.png"
       },
       title: lang.get('cmd_present_embed_title'),
-      url: "https://discordapp.com",
+      url: "https://github.com/DevEkode/cesi_bot",
      description: "13/06/2020 - Matin",
      
       color: 10071592,

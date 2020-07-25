@@ -44,6 +44,7 @@ module.exports = {
     'exception_argument_format': "Un des arguments n'a pas été bien formaté",
     'exception_end_before_start': "Le temps de fin se trouve avant le temps de début !",
     'exception_time_passed': "Cette période c'est déja déroulée",
+    'cmd_AucunEleveError': "Il n\'y a aucun élève a cette période !",
 
     // Others
     'student' : 'Étudiant'
