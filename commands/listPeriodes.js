@@ -7,6 +7,7 @@ const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
 
 module.exports = {
     name: "listperiodes",
+    aliases: ['listeperiodes'],
     description: lang.get('cmd_listperiodes_desc'),
     args: true,
     usage: lang.get('cmd_listperiodes_usage'),

@@ -22,6 +22,7 @@ const STATUT = {
 
 module.exports = {
     name: "liste",
+    aliases: ['list'],
     description: lang.get('cmd_liste_desc'),
     args: false,
     usage: "",

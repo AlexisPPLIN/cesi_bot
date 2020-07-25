@@ -19,14 +19,21 @@ const STATUT = {
 
 module.exports = {
     name: "delete",
+    aliases: ['delet'],
     description: lang.get('cmd_delete_desc'),
     args: true,
     usage: lang.get('cmd_delete_usage'),
     execute(message, args) {
         try {
+   
+                var IdDiscordUtilisateur = args[0];
+
+if(args.length !=1 )  throw new ArgumentValidationError(args);
+
+
           //  var PrenomUtilisateur = args[0];
 
-          var IdDiscordUtilisateur = args[0];
+         
 
           if (IdDiscordUtilisateur.startsWith('<@') && IdDiscordUtilisateur.endsWith('>')) {
               IdDiscordUtilisateur = IdDiscordUtilisateur.slice(2, -1);
@@ -61,6 +68,9 @@ module.exports = {
         {message.channel.send(lang.get('cmd_link_error_autre_mention'));}
 
         } catch (e) {
+            if(e instanceof ArgumentValidationError){
+                message.channel.send(lang.get('exception_argument_format'))
+            }
             console.log("erreur:" + e);
         }
     },
