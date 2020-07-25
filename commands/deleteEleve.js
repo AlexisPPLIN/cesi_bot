@@ -18,8 +18,8 @@ const STATUT = {
 
 
 module.exports = {
-    name: "delete",
-    aliases: ['delet'],
+    name: "deleteEleve",
+    aliases: ['de'],
     description: lang.get('cmd_delete_desc'),
     args: true,
     usage: lang.get('cmd_delete_usage'),
