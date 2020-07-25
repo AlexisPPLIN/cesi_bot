@@ -60,10 +60,10 @@ module.exports = {
                             }
                         },
                         attributes: ['id', 'debut', 'fin', 'pre_debut']
-                    }).then(Periode => {
+                    }).then(Periodeactuel => {
                         console.log(dateActuel)
-                        console.log(Periode.debut)
-                        console.log("periode trouver: id n°" + Periode.id);
+                        console.log(Periodeactuel.debut)
+                        console.log("periode trouver: id n°" + Periodeactuel.id);
 
 
                         db.Utilisateur.count({ //afin de determiner si il fait parti de la liste des etudiant
@@ -75,28 +75,69 @@ module.exports = {
                                 db.Utilisateur.findOne({
                                     where: { id_discord: message.author.id },
                                     attributes: ['id', 'prenom', 'nom', 'RoleId']
-                                }).then(Utilisateur => {
+                                }).then(Utilisateuractuel => {
 
                                     console.log(dateActuel.getHours());
 
-                                    var heurechaine = Periode.debut.getHours() + ":" + Periode.debut.getMinutes() + "-" + Periode.fin.getHours() + ":" + Periode.fin.getMinutes();
-                                    if (dateActuel > Periode.debut) {
+                                    var heurechaine = Periodeactuel.debut.getHours() + ":" + Periodeactuel.debut.getMinutes() + "-" + Periodeactuel.fin.getHours() + ":" + Periodeactuel.fin.getMinutes();
+                                    if (dateActuel > Periodeactuel.debut) {
                                         var statutid = STATUT.RETARD;
                                     }
                                     else {
                                         var statutid = STATUT.PRESENT;
                                     }
 
+
+               
                                     db.Presence
-                                        .findOrCreate({ where: { UtilisateurId: Utilisateur.id, StatutId: statutid, PeriodeId: Periode.id }, defaults: { UtilisateurId: Utilisateur.id, StatutId: statutid, PeriodeId: Periode.id, date_arrive: dateActuel } })
+                                        .findOrCreate({ where: { UtilisateurId: Utilisateuractuel.id, StatutId: statutid, PeriodeId: Periodeactuel.id }, defaults: { UtilisateurId: Utilisateuractuel.id, StatutId: statutid, PeriodeId: Periodeactuel.id, date_arrive: dateActuel } })
                                         .then(([Presence, created]) => {
 
                                             if (created) {
-                                                embed_confirmation_presence_mp.embed.fields[0].value = Utilisateur.nom + " " + Utilisateur.prenom //modifie le nom /* mettre le nom de la base de donne en fct de l'id
+                                                embed_confirmation_presence_mp.embed.fields[0].value = Utilisateuractuel.nom + " " + Utilisateuractuel.prenom //modifie le nom /* mettre le nom de la base de donne en fct de l'id
                                                 embed_confirmation_presence_mp.embed.description = heurechaine
                                                 embed_confirmation_presence_mp.embed.timestamp = dateActuel;
-
+                                               
                                                 //envoi mp confirmation
+
+  /*suppresion des presence avec le statut en attente */
+  db.Presence.findOne({
+    where: {
+        '$Periode.id$': Periodeactuel.id,'$Utilisateur.id$':Utilisateuractuel.id,'$Statut.id$':3
+    },
+    attributes: ['id','date_arrive'],
+    include: [{
+        model: db.Statut,
+        attributes: ['id', 'nom'],
+        required: true,
+        right: true
+    }, {
+        model: db.Periode,
+        attributes: ['id', 'debut', 'fin'],
+        required: true,
+        right: true,
+
+    }, {
+        model: db.Utilisateur,
+        attributes: ['id', 'prenom', 'nom', 'id_discord','RoleId'],
+        where: {  RoleId: 1 },
+        required: true,
+        right: true
+
+    }]
+
+}).then(PresenceInner => {
+    return PresenceInner.destroy();
+
+}).catch((e) => {
+      console.log("erreur test:"+e);
+})
+  /*fin de suppresion des presence avec le statut en attente */
+
+                               
+
+
+
 
                                                 message.author.send({ embed: embed_confirmation_presence_mp.embed });
                                             }
