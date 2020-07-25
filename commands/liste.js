@@ -1,3 +1,7 @@
+const appRoot = require('app-root-path');
+const lang = require(appRoot+'/lang/Language');
+embed_liste_etudiant = require(__dirname + '/../embed\\embed_liste_etudiant.js');
+
 const PresenceSupervisor = require('../classes/PresenceSupervisor');
 
 const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
@@ -18,7 +22,8 @@ const STATUT = {
 
 module.exports = {
     name: "liste",
-    description: "affiche la liste des élève de la promo dans la base de donnée",
+    aliases: ['list'],
+    description: lang.get('cmd_liste_desc'),
     args: false,
     usage: "",
     execute(message, args) {
@@ -34,6 +39,8 @@ module.exports = {
             embed_liste_etudiant.embed.fields[0].value = ListeEtudiantChaine;
             message.channel.send({ embed: embed_liste_etudiant.embed });
     
+        }).catch(() => {
+            console.log("erreur dans  liste.js");
         })
 
 
