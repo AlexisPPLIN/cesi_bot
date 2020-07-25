@@ -21,7 +21,7 @@ const STATUT = {
 
 
 module.exports = {
-    name: "listEleves",
+    name: "listeleves",
     aliases: ['le','list'],
     description: lang.get('cmd_liste_desc'),
     args: false,
