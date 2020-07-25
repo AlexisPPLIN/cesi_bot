@@ -1,15 +1,17 @@
-const db = require('../models/index');
+const appRoot = require('app-root-path');
+const db = require(appRoot+'/models/index');
+const env = require(appRoot+'/config.json');
 const Op = db.Sequelize.Op;
 const moment = require('moment');
 const Queue = require('bull');
-const env = require('../config.json');
 
-moment.locale('fr')
+moment.locale('fr');
+
 let embedQueue = new Queue('embed', 'redis://'+env.redis_host+':'+env.redis_port);
 
-const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
-const EndBeforeStartError = require('../Exceptions/EndBeforeStartError')
-const TimeAlreadyPassedError = require('../Exceptions/TimeAlreadyPassedError')
+const ArgumentValidationError = require(appRoot+'/Exceptions/ArgumentValidationError')
+const EndBeforeStartError = require(appRoot+'/Exceptions/EndBeforeStartError')
+const TimeAlreadyPassedError = require(appRoot+'/Exceptions/TimeAlreadyPassedError')
 
 /**
  * Supervisor of the !askpresence command

@@ -1,16 +1,12 @@
 const appRoot = require('app-root-path');
 const lang = require(appRoot+'/lang/Language');
-const db = require('../models/index');
-const env = require('../config.json');
+const db = require(appRoot+'/models/index');
 
-const PeriodeDeleter = require('../classes/PeriodeDeleter');
-const PermissionsManager = require('../classes/PermissionsManager');
+const PeriodeDeleter = require(appRoot+'/classes/PeriodeDeleter');
+const PermissionsManager = require(appRoot+'/classes/PermissionsManager');
 
-const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
-const PeriodDoesntExistsError = require('../Exceptions/PeriodDoesntExistsError')
-
-const Queue = require('bull');
-let embedQueue = new Queue('embed', 'redis://'+env.redis_host+':'+env.redis_port);
+const ArgumentValidationError = require(appRoot+'/Exceptions/ArgumentValidationError')
+const PeriodDoesntExistsError = require(appRoot+'/Exceptions/PeriodDoesntExistsError')
 
 module.exports = {
     name: "deleteperiode",

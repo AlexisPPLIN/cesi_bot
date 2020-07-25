@@ -1,20 +1,14 @@
 const appRoot = require('app-root-path');
 const lang = require(appRoot + '/lang/Language');
-
+const db = require(appRoot+'/models/index');
 let moment = require('moment'); // require
 moment().format();
 
-const PresenceSupervisor = require('../classes/PresenceSupervisor');
+const PeriodDoesntExistsError = require(appRoot+'/Exceptions/PeriodDoesntExistsError')
+const ArgumentValidationError = require(appRoot+'/Exceptions/ArgumentValidationError')
+const AucunEleveError = require(appRoot+'/Exceptions/AucunEleveError')
 
-const PeriodDoesntExistsError = require('../Exceptions/PeriodDoesntExistsError')
-const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
-const EndBeforeStartError = require('../Exceptions/EndBeforeStartError')
-const TimeAlreadyPassedError = require('../Exceptions/TimeAlreadyPassedError')
-const AucunEleveError = require('../Exceptions/AucunEleveError')
-
-embed_presence_jour = require(__dirname + '/../embed\\embed_presence_jour.js');
-
-const db = require('..\\models\\index');
+embed_presence_jour = require(appRoot+'/embed/embed_presence_jour.js');
 
 module.exports = {
     name: "viewperiode",
