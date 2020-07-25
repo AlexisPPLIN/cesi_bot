@@ -46,7 +46,7 @@ if(args.length !=3 )  throw new ArgumentValidationError(args);
                     IdDiscordUtilisateur = IdDiscordUtilisateur.slice(1);
                 }
 
-            }
+           
 
             if(IdDiscordUtilisateur!=0 && !IdDiscordUtilisateur.startsWith('&') && IdDiscordUtilisateur!='@here' &&IdDiscordUtilisateur!='@everyone'){
 
@@ -66,7 +66,9 @@ if(args.length !=3 )  throw new ArgumentValidationError(args);
             }
             else
             {message.channel.send(lang.get('cmd_link_error_autre_mention'));}
-
+        }
+        else
+        {message.channel.send(lang.get('cmd_link_error_autre_mention'));}
         } catch (e) {
             if(e instanceof ArgumentValidationError){
                 message.channel.send(lang.get('exception_argument_format'))
