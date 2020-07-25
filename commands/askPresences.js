@@ -26,12 +26,15 @@ module.exports = {
                 } else if (!created) {
                     message.channel.send(lang.get('cmd_askpresences_error_exists'));
                 }else{
-                    // Send the embed
-                    let start_embed = supervisor.generatePreStartPeriodEmbed();
-                    message.channel.send({embed: start_embed});
+                    // Regsiter the users
+                    supervisor.registerStudentToPeriod(periode,() => {
+                        // Send the embed
+                        let start_embed = supervisor.generatePreStartPeriodEmbed();
+                        message.channel.send({embed: start_embed});
 
-                    // Plan end period embed
-                    supervisor.planEmbedSend(message.channel.id,periode.get('id'));
+                        // Plan end period embed
+                        supervisor.planEmbedSend(message.channel.id,periode.get('id'));
+                    })
                 }
             })
         } catch (e) {

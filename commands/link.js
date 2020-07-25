@@ -59,8 +59,6 @@ if(args.length !=3 )  throw new ArgumentValidationError(args);
                     else {
                         message.channel.send(lang.get('cmd_link_error_exists'));
                     }
-
-
                 })
             }
             else

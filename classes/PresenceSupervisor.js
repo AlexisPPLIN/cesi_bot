@@ -87,6 +87,23 @@ module.exports = class PresenceSupervisor{
         });
     }
 
+    registerStudentToPeriod(period,callback){
+        db.Utilisateur.findAll({where : {
+                RoleId : 1
+            }})
+            .then(eleves => {
+                eleves.forEach((eleve,index) => {
+                    db.Presence.create({
+                        PeriodeId : period.get('id'),
+                        UtilisateurId: eleve.get('id'),
+                        StatutId: 3
+                    }).then((presence,created) => {
+                        if(index >= eleves.length-1) callback();
+                    });
+                })
+            })
+    }
+
     /**
      * Register the start and end embed into the queue to be displayed later
      * @param channel_id
