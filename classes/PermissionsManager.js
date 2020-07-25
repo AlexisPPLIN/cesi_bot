@@ -1,4 +1,5 @@
-const NotAllowedError = require('../Exceptions/NotAllowedError')
+const appRoot = require('app-root-path');
+const NotAllowedError = require(appRoot+'/Exceptions/NotAllowedError')
 
 module.exports = class PermissionsManager {
     constructor() {

@@ -1,15 +1,15 @@
 const appRoot = require('app-root-path');
 const lang = require(appRoot + '/lang/Language');
-const PresenceSupervisor = require('../classes/PresenceSupervisor');
-const PermissionsManager = require('../classes/PermissionsManager');
-
-const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
-const EndBeforeStartError = require('../Exceptions/EndBeforeStartError')
-const TimeAlreadyPassedError = require('../Exceptions/TimeAlreadyPassedError')
-embed_confirmation_presence_mp = require(__dirname + '/../embed/embed_confirmation_presence_MP.js');
-
-
 const db = require(appRoot + '/models/index');
+
+const PermissionsManager = require(appRoot+'/classes/PermissionsManager');
+
+const ArgumentValidationError = require(appRoot+'/Exceptions/ArgumentValidationError')
+
+embed_confirmation_presence_mp = require(appRoot+'/embed/embed_confirmation_presence_MP.js');
+
+
+
 const STATUT = {
     RETARD: 1,
     PRESENT: 2,

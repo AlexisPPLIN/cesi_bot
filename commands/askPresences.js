@@ -1,12 +1,12 @@
 const appRoot = require('app-root-path');
 const lang = require(appRoot+'/lang/Language');
 
-const PresenceSupervisor = require('../classes/PresenceSupervisor');
-const PermissionsManager = require('../classes/PermissionsManager');
+const PresenceSupervisor = require(appRoot+'/classes/PresenceSupervisor');
+const PermissionsManager = require(appRoot+'/classes/PermissionsManager');
 
-const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
-const EndBeforeStartError = require('../Exceptions/EndBeforeStartError')
-const TimeAlreadyPassedError = require('../Exceptions/TimeAlreadyPassedError')
+const ArgumentValidationError = require(appRoot+'/Exceptions/ArgumentValidationError')
+const EndBeforeStartError = require(appRoot+'/Exceptions/EndBeforeStartError')
+const TimeAlreadyPassedError = require(appRoot+'/Exceptions/TimeAlreadyPassedError')
 
 module.exports = {
     name: "askpresences",
