@@ -4,6 +4,7 @@ const db = require('../models/index');
 const env = require('../config.json');
 
 const PeriodeDeleter = require('../classes/PeriodeDeleter');
+const PermissionsManager = require('../classes/PermissionsManager');
 
 const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
 const PeriodDoesntExistsError = require('../Exceptions/PeriodDoesntExistsError')
@@ -18,6 +19,11 @@ module.exports = {
     args: true,
     usage: lang.get('cmd_deleteperiode_usage'),
     execute(message, args) {
+        // Check permissions
+        if(!new PermissionsManager().hasPermission(message)) {
+            message.channel.send(lang.get('exception_not_allowed'));
+            return;
+        }
 
         //Validate arguments
         try{
