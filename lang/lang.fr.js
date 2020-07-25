@@ -25,6 +25,7 @@ module.exports = {
     'cmd_link_desc': "Ajoute l’élève dans la liste des élève qui est dans base.",
     'cmd_link_usage': '<nom élève> <prénom élève> <discord>',
     'cmd_liste_desc': 'Affiche la liste des élève de la promo dans la base de donnée',
+    'cmd_list_aucun': 'Aucun élève enregistré, utilisez `!link`',
     'cmd_listperiodes_desc': 'Donne la liste des périodes d\'une date donnée',
     'cmd_listperiodes_usage': '<date dd/mm/yyyy>',
     'cmd_presences_desc': 'Envoi un mp à l’intervenant avec tous les absent, les present et les retard',
