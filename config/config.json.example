@@ -5,9 +5,6 @@
     "database": "database_development",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "dialectOptions": {
-        "useUTC": false
-    },
     "timezone": "+02:00"
   },
   "test": {
@@ -16,9 +13,6 @@
     "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "dialectOptions": {
-        "useUTC": false
-    },
     "timezone": "+02:00"
   },
   "production": {
@@ -27,9 +21,6 @@
     "database": "database_production",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "dialectOptions": {
-        "useUTC": false
-    },
     "timezone": "+02:00"
   }
 }
