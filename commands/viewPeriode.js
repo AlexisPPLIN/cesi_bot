@@ -1,7 +1,7 @@
 const appRoot = require('app-root-path');
 const lang = require(appRoot + '/lang/Language');
 
-var moment = require('moment'); // require
+let moment = require('moment'); // require
 moment().format();
 
 const PresenceSupervisor = require('../classes/PresenceSupervisor');
@@ -14,14 +14,7 @@ const AucunEleveError = require('../Exceptions/AucunEleveError')
 
 embed_presence_jour = require(__dirname + '/../embed\\embed_presence_jour.js');
 
-
 const db = require('..\\models\\index');
-const STATUT = {
-    RETARD: 1,
-    PRESENT: 2,
-    EN_ATTENTE: 3,
-    ABSENT: 4
-};
 
 module.exports = {
     name: "viewperiode",
@@ -32,148 +25,67 @@ module.exports = {
     execute(message, args) {
 
         try {
-            if(args.length > 1)  throw new ArgumentValidationError(args);
+            if (args.length > 1) throw new ArgumentValidationError(args);
 
+            db.Periode.findOne({where: {id: args[0]}})
+                .then(periode => {
+                    periode.getPresences()
+                        .then(presences => {
+                            let listeUtilisateurs = "";
+                            let listeStatut = "";
+                            presences.forEach(presence => {
+                                presence.getUtilisateur()
+                                    .then(user => {
+                                        listeUtilisateurs += "🎓" + user.get('nom') + " " + user.get('prenom') + "\n"
+                                        switch (presence.get('StatutId')) {
+                                            case 1:
+                                                if (presence.get('date_arrive') > periode.get('debut')) {
+                                                    // En retard
+                                                    let now = moment(presence.get('date_arrive'));
+                                                    let then = moment(periode.get('debut'));
 
-            var dateActuel = new Date();
+                                                    let ms = moment.utc(moment(now, "DD/MM/YYYY HH:mm:ss").diff(moment(then, "DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss")
 
-            //date debut periode
-            var datePeriodeDebut = new Date(dateActuel.getFullYear(), dateActuel.getMonth(), dateActuel.getDate(), 0, 0, 1);
+                                                    listeStatut += "✅ (⏰" + ms + ")";
+                                                } else {
+                                                    // Présent, a l'heure
+                                                    listeStatut += "✅\n"
+                                                }
+                                                break;
+                                            case 2:
+                                                listeStatut += "❌\n"
+                                                break;
+                                            case 3:
+                                                listeStatut += "❔\n"
+                                                break;
+                                        }
 
-            //date fin periode
-            var datePeriodeFin = new Date(dateActuel.getFullYear(), dateActuel.getMonth(), dateActuel.getDate(), 23, 59, 59);
+                                        let presence_debut = moment(presence.get('debut')).format('HH:mm')
+                                        let presence_fin = moment(presence.get('fin')).format('HH:mm')
+                                        let heurechaine = presence_debut + " - " + presence_fin;
 
-            db.Periode.count({
-                where: { id: args[0] },
-                attributes: ['id']
-            }).then(compteurperiodePeriode => {
-                if (compteurperiodePeriode == 0) { throw new PeriodDoesntExistsError(); }
-
-                //  if (compteurperiodePeriode != 0) {
-
-
-                db.Utilisateur.findAll({// pour calculer la liste des utilisateur
-                    where: { RoleId: 1 },
-                    attributes: ['id', 'prenom', 'nom', 'RoleId']
-                }).then(Utilisateur => {
-
-                    var listePrenomEtudiant = [];
-                    var listeIDEtudiant = [];
-                    var listeNomEtudiant = [];
-                    for (var i = 0; i < Utilisateur.length; i++) {
-                        listePrenomEtudiant.push(Utilisateur[i].prenom)
-                        listeNomEtudiant.push(Utilisateur[i].nom)
-                        listeIDEtudiant.push(Utilisateur[i].id)
-                    }
-
-
-
-                    db.Presence.findAll({
-                        where: {
-                            '$Periode.id$': args[0]
-                        },
-                        attributes: ['date_arrive'],
-                        include: [{
-                            model: db.Statut,
-                            attributes: ['id', 'nom'],
-                            required: true,
-                            right: true
-                        }, {
-                            model: db.Periode,
-                            attributes: ['id', 'debut', 'fin'],
-                            required: true,
-                            right: true,
-
-                        }, {
-                            model: db.Utilisateur,
-                            attributes: ['id', 'prenom', 'nom', 'id_discord'],
-                            where: { RoleId: 1 },
-                            required: true,
-                            right: true
-
-                        }]
-
-                    }).then(Presence => {
-                     
-                        var ListeEtudiantChaine = "";
-                        
-
-                        var ListePresencePeriode1 = "";
-                        var ListePresencePeriode2 = "";
-
-                        for (var i = 0; i < listeIDEtudiant.length; i++) {
-                            for (var j = 0; j < Presence.length; j++) {
-                               
-                                if (listeIDEtudiant[i] == Presence[j].Utilisateur.id) {
-
-                                    ListeEtudiantChaine = ListeEtudiantChaine + "🎓" + Presence[j].Utilisateur.nom + " " + Presence[j].Utilisateur.prenom + "\n";
-
-
-                                    var datedebut = new Date(Presence[j].Periode.debut);
-
-
-                                    if (Presence[j].Statut.id == STATUT.RETARD) {
-                                        var now = moment(Presence[j].date_arrive);
-                                        var then = moment(Presence[j].Periode.debut);
-
-                                        var ms = moment.utc(moment(now, "DD/MM/YYYY HH:mm:ss").diff(moment(then, "DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss")
-
-                                        ListePresencePeriode1 = ListePresencePeriode1 + "✅ (⏰" + ms + ")";
-                                    }
-                                    else if (Presence[j].Statut.id == STATUT.PRESENT) {
-                                        ListePresencePeriode1 = ListePresencePeriode1 + "✅";
-                                    }
-                                    else if (Presence[j].Statut.id == STATUT.EN_ATTENTE) {
-                                        ListePresencePeriode1 = ListePresencePeriode1 + "❔";
-                                    }
-                                    else if (Presence[j].Statut.id == STATUT.ABSENT) {
-                                        ListePresencePeriode1 = ListePresencePeriode1 + "❌";
-                                    }
-
-                                    ListePresencePeriode1 = ListePresencePeriode1 + "\n";
-
-
-                                    var heurechaine = Presence[j].Periode.debut.getHours() + ":" + Presence[j].Periode.debut.getMinutes() + "-" + Presence[j].Periode.fin.getHours() + ":" + Presence[j].Periode.fin.getMinutes();
-                                }
-                            }
-                        }
-
-                        if(ListeEtudiantChaine=="") { throw new AucunEleveError(); }
-
-                        embed_presence_jour.embed.fields[1].value = ListePresencePeriode1;
-                        embed_presence_jour.embed.fields[1].name = heurechaine
-                        embed_presence_jour.embed.fields[0].value = ListeEtudiantChaine;
-                        message.channel.send({ embed: embed_presence_jour.embed });
-                    }).catch((e) => {
-                        if (e instanceof AucunEleveError) {
-                            message.channel.send(lang.get('cmd_AucunEleveError'))
-                        }
-                        console.log("erreur:"+e);
-                    })
-
-
-
-
-                }).catch(() => {
-                    console.log("erreur inconu");
+                                        embed_presence_jour.embed.fields[1].value = listeStatut;
+                                        embed_presence_jour.embed.fields[1].name = heurechaine
+                                        embed_presence_jour.embed.fields[0].value = listeUtilisateurs;
+                                        message.channel.send({embed: embed_presence_jour.embed});
+                                    })
+                            })
+                        })
+                        .catch(() => {
+                            throw new AucunEleveError();
+                        })
                 })
-
-                // }
-            }).catch(() => {
-                message.channel.send(lang.get('cmd_deleteperiode_exists'));
-            })
-
+                .catch(() => {
+                    throw new PeriodDoesntExistsError();
+                })
         } catch (e) {
-            if(e instanceof ArgumentValidationError){
+            if (e instanceof ArgumentValidationError) {
                 message.channel.send(lang.get('exception_argument_format'))
-            }
-            else if (e instanceof PeriodDoesntExistsError) {
+            } else if (e instanceof PeriodDoesntExistsError) {
                 message.channel.send(lang.get('cmd_deleteperiode_exists'))
-            }
-            else if (e instanceof AucunEleveError) {
+            } else if (e instanceof AucunEleveError) {
                 message.channel.send(lang.get('cmd_AucunEleveError'))
             }
-            // console.log("erreur:" + e);
         }
     },
 }
