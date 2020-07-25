@@ -35,6 +35,8 @@ module.exports = {
                 }
             }
 
+            let listeUtilisateurs = "";
+            let listeStatut = "";
             db.Periode.findOne({where: where_args})
                 .then(periode => {
                     if(periode === null){
@@ -43,9 +45,7 @@ module.exports = {
                     }
                     periode.getPresences()
                         .then(presences => {
-                            let listeUtilisateurs = "";
-                            let listeStatut = "";
-                            presences.forEach(presence => {
+                            presences.forEach((presence,index) => {
                                 presence.getUtilisateur()
                                     .then(user => {
                                         listeUtilisateurs += "🎓" + user.get('nom') + " " + user.get('prenom') + "\n"
@@ -72,21 +72,24 @@ module.exports = {
                                                 break;
                                         }
 
-                                        let presence_debut = moment(periode.get('debut')).format('HH:mm')
-                                        let presence_fin = moment(periode.get('fin')).format('HH:mm')
-                                        let heurechaine = presence_debut + " - " + presence_fin;
+                                        if(index >= presences.length-1){
+                                            let presence_debut = moment(periode.get('debut')).format('HH:mm')
+                                            let presence_fin = moment(periode.get('fin')).format('HH:mm')
+                                            let heurechaine = presence_debut + " - " + presence_fin;
 
-                                        embed_presence_jour.embed.fields[1].value = listeStatut;
-                                        embed_presence_jour.embed.fields[1].name = heurechaine
-                                        embed_presence_jour.embed.fields[0].value = listeUtilisateurs;
-                                        embed_presence_jour.embed.description = moment().format('L');
-                                        message.channel.send({embed: embed_presence_jour.embed});
+                                            embed_presence_jour.embed.fields[1].value = listeStatut;
+                                            embed_presence_jour.embed.fields[1].name = heurechaine
+                                            embed_presence_jour.embed.fields[0].value = listeUtilisateurs;
+                                            embed_presence_jour.embed.description = moment().format('L');
+                                            message.channel.send({embed: embed_presence_jour.embed});
+                                        }
                                     })
-                            })
+                            });
                         })
                         .catch(() => {
                             throw new AucunEleveError();
                         })
+
                 })
                 .catch(() => {
                     throw new PeriodDoesntExistsError();
