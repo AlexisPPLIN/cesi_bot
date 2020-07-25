@@ -60,13 +60,14 @@ module.exports = {
                                                 break;
                                         }
 
-                                        let presence_debut = moment(presence.get('debut')).format('HH:mm')
-                                        let presence_fin = moment(presence.get('fin')).format('HH:mm')
+                                        let presence_debut = moment(periode.get('debut')).format('HH:mm')
+                                        let presence_fin = moment(periode.get('fin')).format('HH:mm')
                                         let heurechaine = presence_debut + " - " + presence_fin;
 
                                         embed_presence_jour.embed.fields[1].value = listeStatut;
                                         embed_presence_jour.embed.fields[1].name = heurechaine
                                         embed_presence_jour.embed.fields[0].value = listeUtilisateurs;
+                                        embed_presence_jour.embed.description = moment().format('L');
                                         message.channel.send({embed: embed_presence_jour.embed});
                                     })
                             })
