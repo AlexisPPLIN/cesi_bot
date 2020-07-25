@@ -40,6 +40,7 @@ module.exports = {
     'cmd_link_error_autre_mention': 'Merci de mettre une mention d\'un utilisateur !',
     'cmd_delete_success': 'Cet élève est bien Supprimé de la liste !',
     'cmd_delete_error_exists': 'Cet élève n\'existe pas!',
+    'cmd_tutorial_desc': "Affiche un tutoriel d'utilisation du bot",
 
     // Exceptions
     'exception_argument_format': "Un des arguments n'a pas été bien formaté",
