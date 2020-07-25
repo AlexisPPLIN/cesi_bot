@@ -27,13 +27,9 @@ module.exports = {
     usage: "",
     execute(message, args) {
         //Pass the arguments to the PresenceSupervisor and return errors if needed
-        let supervisor;
         try {
-
             //modification dans la bd avec l'heure et en fct de l'id
-            var dateActuel = new Date();
-
-
+            let dateActuel = new Date();
 
             //compte nombre ligne
             db.Periode.count({
@@ -43,10 +39,8 @@ module.exports = {
                     }, fin: {
                         [db.Sequelize.Op.gte]: dateActuel
                     }
-                },
-                attributes: ['id']
+                }
             }).then(compteurPeriode => {
-              
                 //si il y a un resultat alors
                 if (compteurPeriode != 0) {
 
