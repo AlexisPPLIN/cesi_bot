@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "db:init_prod": "npx sequelize-cli db:create --env=production && npx sequelize-cli db:migrate --env=production",
-    "db:init_dev": "npx sequelize-cli db:create --env=development && npx sequelize-cli db:migrate --env=development",
+    "db:init_prod": "npx sequelize-cli db:create --env=production && npx sequelize-cli db:migrate --env=production && npx sequelize-cli db:seed:all --env=production",
+    "db:init_dev": "npx sequelize-cli db:create --env=development && npx sequelize-cli db:migrate --env=development && npx sequelize-cli db:seed:all --env=development",
     "db:makemigrations": "makemigration"
   },
   "author": "Alexis POUPELIN, Justin BAHIER",
