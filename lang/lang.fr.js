@@ -14,7 +14,7 @@ module.exports = {
     'cmd_help_usage': '[nom de la commande]',
     'cmd_help_list' : 'Voici la liste de toutes mes commandes : ',
     'cmd_help_command_1': 'Vous pouvez envoyer',
-    'cmd_help_command_2': '`help [nom de la commande]` pour avoir plus d\'info sur cette commande',
+    'cmd_help_command_2': 'help [nom de la commande]` pour avoir plus d\'info sur cette commande',
     'cmd_help_dm': 'Je viens de vous envoyer la liste des commandes en MP!',
     'cmd_help_dm_error': 'Je n\'ai pas réussi à vous envoyer un message privé. Avez vous désactivé vos MP ?',
     'cmd_help_not_valid': 'Ce n\'est pas une commande valide !',
