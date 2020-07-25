@@ -1,7 +1,11 @@
+const appRoot = require('app-root-path');
+
 const Discord = require('discord.js');
-const env = require('.\\config.json');
+const env = require(appRoot+'/config.json');
 const client = new Discord.Client();
-const db = require('.\\models\\index');
+const db = require(appRoot+'/models/index');
+const lang = require(appRoot+'/lang/Language');
+
 
 const fs = require("fs");
 const vm = require('vm');
@@ -11,22 +15,15 @@ let embedQueue = new Queue('embed', 'redis://'+env.redis_host+':'+env.redis_port
 
 // Getting every commands in the 'commands' folder
 client.commands = new Discord.Collection();
-console.log("test");
-const commandFiles = fs.readdirSync('commands').filter(file => file.endsWith('.js'));
-console.log("test"+commandFiles);
+
+const commandFiles = fs.readdirSync(appRoot+'/commands').filter(file => file.endsWith('.js'));
+
 for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
+	const command = require(appRoot+`/commands/${file}`);
 	// set a new item in the Collection
 	// with the key as the command name and the value as the exported module
 	client.commands.set(command.name, command);
 }
-
-const STATUT = {
-	RETARD: 1,
-	PRESENT: 2,
-	EN_ATTENTE: 3,
-	ABSENT: 4
-};
 
 client.once('ready', () => {
 	console.log('Ready!');

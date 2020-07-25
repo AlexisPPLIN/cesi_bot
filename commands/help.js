@@ -1,28 +1,30 @@
+const appRoot = require('app-root-path');
+const lang = require(appRoot+'/lang/Language');
 const env = require('../config.json');
 
 module.exports = {
     name: 'help',
-    description: "Liste toutes les commandes ou donne les infos d'une commande",
+    description: lang.get('cmd_help_desc'),
     aliases: ['commands'],
-    usage: '[command name]',
+    usage: lang.get('cmd_help_usage'),
     cooldown: 5,
     execute(message, args) {
         const data = [];
         const { commands } = message.client;
 
         if (!args.length) {
-            data.push('Here\'s a list of all my commands:');
+            data.push(lang.get('cmd_help_list'));
             data.push(commands.map(command => command.name).join(', '));
-            data.push(`\nYou can send \`${env.prefix}help [command name]\` to get info on a specific command!`);
+            data.push(lang.get('cmd_help_command_1')+' '+env.prefix+' '+lang.get('cmd_help_command_2'));
 
             return message.author.send(data, { split: true })
                 .then(() => {
                     if (message.channel.type === 'dm') return;
-                    message.reply('I\'ve sent you a DM with all my commands!');
+                    message.reply(lang.get('cmd_help_dm'));
                 })
                 .catch(error => {
                     console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-                    message.reply('it seems like I can\'t DM you! Do you have DMs disabled?');
+                    message.reply(lang.get('cmd_help_dm_error'));
                 });
         }
 
@@ -30,7 +32,7 @@ module.exports = {
         const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
         if (!command) {
-            return message.reply('that\'s not a valid command!');
+            return message.reply(lang.get('cmd_help_not_valid'));
         }
 
         // Generate help embed
@@ -41,7 +43,7 @@ module.exports = {
         let usage = "`"+command_name+" "+command.usage+"`";
         let countdown = (command.cooldown || 3)+" seconde(s)"
         let embed = {
-            "title": "Aide de la commande `"+command_name+"`",
+            "title": lang.get('cmd_help_embed_title')+" `"+command_name+"`",
             "description": command.description,
             "url": "https://discordapp.com",
             "color": 10071592,
@@ -52,15 +54,15 @@ module.exports = {
             },
             "fields": [
                 {
-                    "name": "Aliases",
+                    "name": lang.get('cmd_help_embed_aliases'),
                     "value": aliases
                 },
                 {
-                    "name": "Utilisation",
+                    "name": lang.get('cmd_help_embed_usage'),
                     "value": usage
                 },
                 {
-                    "name": "Temps d'attente avant nouvelle utilisation",
+                    "name": lang.get('cmd_help_embed_countdown'),
                     "value": countdown
                 }
             ]

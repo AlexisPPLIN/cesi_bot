@@ -1,3 +1,5 @@
+const appRoot = require('app-root-path');
+const lang = require(appRoot+'/lang/Language');
 const db = require('../models/index');
 const env = require('../config.json');
 
@@ -12,9 +14,9 @@ let embedQueue = new Queue('embed', 'redis://'+env.redis_host+':'+env.redis_port
 module.exports = {
     name: "deleteperiode",
     aliases: ['dp'],
-    description: "Supprime une période donnée",
+    description: lang.get('cmd_deleteperiode_desc'),
     args: true,
-    usage: "<periode ID>",
+    usage: lang.get('cmd_deleteperiode_usage'),
     execute(message, args) {
 
         //Validate arguments
@@ -26,18 +28,18 @@ module.exports = {
                     if(period === null) throw new PeriodDoesntExistsError();
 
                     supervisor.deletePeriode(() => {
-                        message.channel.send('Period deleted successfully')
+                        message.channel.send(lang.get('cmd_deleteperiode_success'))
                     })
                 })
-                .catch((e) => {
-                    message.channel.send("This period doesn't exists ! ");
+                .catch(() => {
+                    message.channel.send(lang.get('cmd_deleteperiode_exists'));
                 })
 
         }catch (e) {
             if(e instanceof ArgumentValidationError){
-                message.channel.send('One of the argument was not formatted correctly !')
+                message.channel.send(lang.get('exception_argument_format'))
             }else if(e instanceof PeriodDoesntExistsError){
-                message.channel.send("This period doesn't exists ! ")
+                message.channel.send(lang.get('cmd_deleteperiode_exists'))
             }
         }
     },
