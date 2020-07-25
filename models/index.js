@@ -1,12 +1,14 @@
 'use strict';
 const appRoot = require('app-root-path');
 const config_env = require(appRoot+'/config.json');
-if(!config_env.debug){
-  process.env.NODE_ENV = 'development';
+
+let env_temp;
+if(config_env.debug){
+  env_temp = 'development';
 }else{
-  process.env.NODE_ENV = 'production';
+  env_temp = 'production';
 }
-let env = process.env.NODE_ENV || 'development';
+let env = env_temp || process.env.NODE_ENV;
 console.log('[DB] Using environment '+env);
 
 const fs = require('fs');
