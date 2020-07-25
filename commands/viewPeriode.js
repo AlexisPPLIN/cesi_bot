@@ -20,15 +20,33 @@ module.exports = {
     name: "viewperiode",
     aliases: ['vp'],
     description: lang.get('cmd_presences_desc'),
-    args: true,
+    args: false,
     usage: lang.get('cmd_presences_usage'),
     execute(message, args) {
-
         try {
             if (args.length > 1) throw new ArgumentValidationError(args);
 
-            db.Periode.findOne({where: {id: args[0]}})
+            let where_args;
+            if (args.length === 0) {
+                where_args = {
+                    pre_debut: {
+                        [db.Sequelize.Op.lte]: new Date()
+                    }, fin: {
+                        [db.Sequelize.Op.gte]: new Date()
+                    }
+                }
+            } else {
+                where_agrs = {
+                    id: args[0]
+                }
+            }
+
+            db.Periode.findOne({where: where_args})
                 .then(periode => {
+                    if(periode === null){
+                        message.channel.send(lang.get('cmd_present_error_no_class'))
+                        return;
+                    }
                     periode.getPresences()
                         .then(presences => {
                             let listeUtilisateurs = "";
