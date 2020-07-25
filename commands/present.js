@@ -1,14 +1,8 @@
 const appRoot = require('app-root-path');
 const lang = require(appRoot + '/lang/Language');
+const db = require(appRoot+'/models/index');
 
-const PresenceSupervisor = require('../classes/PresenceSupervisor');
-const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
-const EndBeforeStartError = require('../Exceptions/EndBeforeStartError')
-const TimeAlreadyPassedError = require('../Exceptions/TimeAlreadyPassedError')
-
-embed_confirmation_presence_mp = require(__dirname + '/../embed/embed_confirmation_presence_MP.js');
-
-const db = require('..\\models\\index');
+embed_confirmation_presence_mp = require(appRoot+'/embed/embed_confirmation_presence_MP.js');
 
 module.exports = {
     name: "present",

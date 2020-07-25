@@ -1,15 +1,11 @@
 const appRoot = require('app-root-path');
 
+const fs = require("fs");
 const Discord = require('discord.js');
 const env = require(appRoot+'/config.json');
 const client = new Discord.Client();
-const db = require(appRoot+'/models/index');
-const lang = require(appRoot+'/lang/Language');
 
 const PresenceSupevisor = require(appRoot+'/classes/PresenceSupervisor');
-
-const fs = require("fs");
-const vm = require('vm');
 
 const Queue = require('bull');
 let embedQueue = new Queue('embed', 'redis://'+env.redis_host+':'+env.redis_port);

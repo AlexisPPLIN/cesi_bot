@@ -1,6 +1,6 @@
 const appRoot = require('app-root-path');
 const lang = require(appRoot+'/lang/Language');
-const env = require('../config.json');
+const env = require(appRoot+'/config.json');
 
 module.exports = {
     name: 'help',

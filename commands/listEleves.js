@@ -1,24 +1,16 @@
 const appRoot = require('app-root-path');
 const lang = require(appRoot+'/lang/Language');
-embed_liste_etudiant = require(__dirname + '/../embed\\embed_liste_etudiant.js');
+const db = require(appRoot+'/models/index');
 
-const PresenceSupervisor = require('../classes/PresenceSupervisor');
+embed_liste_etudiant = require(appRoot+'/embed/embed_liste_etudiant.js');
+embed_confirmation_presence_mp = require(appRoot+'/embed/embed_confirmation_presence_MP.js');
 
-const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
-const EndBeforeStartError = require('../Exceptions/EndBeforeStartError')
-const TimeAlreadyPassedError = require('../Exceptions/TimeAlreadyPassedError')
-embed_confirmation_presence_mp = require(__dirname + '/../embed/embed_confirmation_presence_MP.js');
-
-
-const db = require('..\\models\\index');
 const STATUT = {
 	RETARD: 1,
 	PRESENT: 2,
 	EN_ATTENTE: 3,
 	ABSENT: 4
 };
-
-
 
 module.exports = {
     name: "listeleves",

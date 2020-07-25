@@ -1,11 +1,11 @@
+const appRoot = require('app-root-path');
 const Queue = require('bull');
-const db = require('../models/index');
-const env = require('../config.json');
+const db = require(appRoot+'/models/index');
+const env = require(appRoot+'/config.json');
+
 let embedQueue = new Queue('embed', 'redis://' + env.redis_host + ':' + env.redis_port);
 
-const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
-const PeriodDoesntExistsError = require('../Exceptions/PeriodDoesntExistsError')
-
+const ArgumentValidationError = require(appRoot+'/Exceptions/ArgumentValidationError')
 
 module.exports = class PeriodeDeleter {
     constructor(id) {

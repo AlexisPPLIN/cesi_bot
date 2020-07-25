@@ -1,9 +1,10 @@
+const appRoot = require('app-root-path');
 const moment = require('moment');
 moment.locale('fr')
-const db = require('../models/index');
+const db = require(appRoot+'/models/index');
 const Op = db.Sequelize.Op;
 
-const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
+const ArgumentValidationError = require(appRoot+'/Exceptions/ArgumentValidationError')
 
 module.exports = class PeriodesSupervisor{
     constructor(date) {
