@@ -21,8 +21,8 @@ const STATUT = {
 
 
 module.exports = {
-    name: "liste",
-    aliases: ['list'],
+    name: "listeleves",
+    aliases: ['le','list'],
     description: lang.get('cmd_liste_desc'),
     args: false,
     usage: "",
@@ -32,15 +32,17 @@ module.exports = {
             
 
         db.Utilisateur.findAll({ where: { RoleId: '1' } }).then(Utilisateur => {
-            var ListeEtudiantChaine = "";
+            let ListeEtudiantChaine = "";
             for (let i = 0; i < Utilisateur.length; i++) {
-                ListeEtudiantChaine = ListeEtudiantChaine + "🎓" + Utilisateur[i].nom + " " + Utilisateur[i].prenom + " <@" + Utilisateur[i].id_discord + "> \n";
+                ListeEtudiantChaine += "🎓" + Utilisateur[i].nom + " " + Utilisateur[i].prenom + " <@" + Utilisateur[i].id_discord + "> \n";
             }
+            if(ListeEtudiantChaine === "") ListeEtudiantChaine = lang.get('cmd_list_aucun')
+
             embed_liste_etudiant.embed.fields[0].value = ListeEtudiantChaine;
             message.channel.send({ embed: embed_liste_etudiant.embed });
     
         }).catch(() => {
-            console.log("erreur dans  liste.js");
+            console.log("erreur dans  listEleves.js");
         })
 
 

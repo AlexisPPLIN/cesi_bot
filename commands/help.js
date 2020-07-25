@@ -15,7 +15,7 @@ module.exports = {
         if (!args.length) {
             data.push(lang.get('cmd_help_list'));
             data.push(commands.map(command => command.name).join(', '));
-            data.push(lang.get('cmd_help_command_1')+' '+env.prefix+' '+lang.get('cmd_help_command_2'));
+            data.push(lang.get('cmd_help_command_1')+' `'+env.prefix+''+lang.get('cmd_help_command_2'));
 
             return message.author.send(data, { split: true })
                 .then(() => {
@@ -45,11 +45,11 @@ module.exports = {
         let embed = {
             "title": lang.get('cmd_help_embed_title')+" `"+command_name+"`",
             "description": command.description,
-            "url": "https://discordapp.com",
+            "url": "https://github.com/DevEkode/cesi_bot",
             "color": 10071592,
             "author": {
                 "name": "CESI Bot",
-                "url": "https://discordapp.com",
+                "url": "https://github.com/DevEkode/cesi_bot",
                 "icon_url": "https://puu.sh/G2gn6/c26897ba03.png"
             },
             "fields": [

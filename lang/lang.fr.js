@@ -14,7 +14,7 @@ module.exports = {
     'cmd_help_usage': '[nom de la commande]',
     'cmd_help_list' : 'Voici la liste de toutes mes commandes : ',
     'cmd_help_command_1': 'Vous pouvez envoyer',
-    'cmd_help_command_2': '`help [nom de la commande]` pour avoir plus d\'info sur cette commande',
+    'cmd_help_command_2': 'help [nom de la commande]` pour avoir plus d\'info sur cette commande',
     'cmd_help_dm': 'Je viens de vous envoyer la liste des commandes en MP!',
     'cmd_help_dm_error': 'Je n\'ai pas réussi à vous envoyer un message privé. Avez vous désactivé vos MP ?',
     'cmd_help_not_valid': 'Ce n\'est pas une commande valide !',
@@ -25,8 +25,9 @@ module.exports = {
     'cmd_link_desc': "Ajoute l’élève dans la liste des élève qui est dans base.",
     'cmd_link_usage': '<nom élève> <prénom élève> <discord>',
     'cmd_liste_desc': 'Affiche la liste des élève de la promo dans la base de donnée',
+    'cmd_list_aucun': 'Aucun élève enregistré, utilisez `!link`',
     'cmd_listperiodes_desc': 'Donne la liste des périodes d\'une date donnée',
-    'cmd_listperiodes_usage': '<date dd/mm/yyyy>',
+    'cmd_listperiodes_usage': '[date dd/mm/yyyy]',
     'cmd_presences_desc': 'Envoi un mp à l’intervenant avec tous les absent, les present et les retard',
     'cmd_presences_usage': '<ID>',
     'cmd_present_desc': 'permet à l’élève de déclarer les présences.envoi un mp à l\'élève pour confirmer la présence.',
@@ -44,7 +45,9 @@ module.exports = {
     'exception_argument_format': "Un des arguments n'a pas été bien formaté",
     'exception_end_before_start': "Le temps de fin se trouve avant le temps de début !",
     'exception_time_passed': "Cette période c'est déja déroulée",
-    'cmd_AucunEleveError': "Il n\'y a aucun élève a cette période !",
+    'cmd_AucunEleveError': "Il n'y a aucun élève a cette période !",
+    'exception_too_many_arguments' : "Vous avez dépassé le nombre d'argument maximal pour cette commande !",
+    'exception_not_allowed': "Vous n'avez pas la permission d'executer cette commande",
 
     // Others
     'student' : 'Étudiant'
