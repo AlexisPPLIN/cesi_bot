@@ -18,13 +18,9 @@ const STATUT = {
     ABSENT: 4
 };
 
-
-
-
-
 module.exports = {
-    name: "link",
-    aliases: ['add'],
+    name: "addEleve",
+    aliases: ['ae'],
     description: lang.get('cmd_link_desc'),
     args: true,
     usage: lang.get('cmd_link_usage'),

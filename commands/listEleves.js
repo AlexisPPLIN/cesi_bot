@@ -21,8 +21,8 @@ const STATUT = {
 
 
 module.exports = {
-    name: "liste",
-    aliases: ['list'],
+    name: "listEleves",
+    aliases: ['le','list'],
     description: lang.get('cmd_liste_desc'),
     args: false,
     usage: "",
@@ -42,7 +42,7 @@ module.exports = {
             message.channel.send({ embed: embed_liste_etudiant.embed });
     
         }).catch(() => {
-            console.log("erreur dans  liste.js");
+            console.log("erreur dans  listEleves.js");
         })
 
 

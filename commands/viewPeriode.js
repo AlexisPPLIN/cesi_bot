@@ -23,11 +23,9 @@ const STATUT = {
     ABSENT: 4
 };
 
-
-
 module.exports = {
-    name: "presences",
-    aliases: ['viewperiode ', 'présences','presence','p'],
+    name: "viewPeriode",
+    aliases: ['vp'],
     description: lang.get('cmd_presences_desc'),
     args: true,
     usage: lang.get('cmd_presences_usage'),
