@@ -32,9 +32,7 @@ module.exports = {
     execute(message, args) {
 
         try {
-
-
-            if(args.length !=1 )  throw new ArgumentValidationError(args);
+            if(args.length > 1)  throw new ArgumentValidationError(args);
 
 
             var dateActuel = new Date();
@@ -49,11 +47,6 @@ module.exports = {
                 where: { id: args[0] },
                 attributes: ['id']
             }).then(compteurperiodePeriode => {
-
-
-                
-
-                
                 if (compteurperiodePeriode == 0) { throw new PeriodDoesntExistsError(); }
 
                 //  if (compteurperiodePeriode != 0) {
