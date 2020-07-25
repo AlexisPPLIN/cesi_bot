@@ -10,6 +10,7 @@ const PeriodDoesntExistsError = require('../Exceptions/PeriodDoesntExistsError')
 const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
 const EndBeforeStartError = require('../Exceptions/EndBeforeStartError')
 const TimeAlreadyPassedError = require('../Exceptions/TimeAlreadyPassedError')
+const AucunEleveError = require('../Exceptions/AucunEleveError')
 
 embed_presence_jour = require(__dirname + '/../embed\\embed_presence_jour.js');
 
@@ -52,9 +53,9 @@ module.exports = {
             }).then(compteurperiodePeriode => {
 
 
+                
 
-
-
+                
                 if (compteurperiodePeriode == 0) { throw new PeriodDoesntExistsError(); }
 
                 //  if (compteurperiodePeriode != 0) {
@@ -111,7 +112,7 @@ module.exports = {
 
                         for (var i = 0; i < listeIDEtudiant.length; i++) {
                             for (var j = 0; j < Presence.length; j++) {
-
+                               
                                 if (listeIDEtudiant[i] == Presence[j].Utilisateur.id) {
 
                                     ListeEtudiantChaine = ListeEtudiantChaine + "🎓" + Presence[j].Utilisateur.nom + " " + Presence[j].Utilisateur.prenom + "\n";
@@ -145,12 +146,18 @@ module.exports = {
                                 }
                             }
                         }
+
+                        if(ListeEtudiantChaine=="") { throw new AucunEleveError(); }
+
                         embed_presence_jour.embed.fields[1].value = ListePresencePeriode1;
                         embed_presence_jour.embed.fields[1].name = heurechaine
                         embed_presence_jour.embed.fields[0].value = ListeEtudiantChaine;
                         message.channel.send({ embed: embed_presence_jour.embed });
-                    }).catch(() => {
-                        console.log("erreur inconu");
+                    }).catch((e) => {
+                        if (e instanceof AucunEleveError) {
+                            message.channel.send(lang.get('cmd_AucunEleveError'))
+                        }
+                        console.log("erreur:"+e);
                     })
 
 
@@ -171,6 +178,9 @@ module.exports = {
             }
             else if (e instanceof PeriodDoesntExistsError) {
                 message.channel.send(lang.get('cmd_deleteperiode_exists'))
+            }
+            else if (e instanceof AucunEleveError) {
+                message.channel.send(lang.get('cmd_AucunEleveError'))
             }
             // console.log("erreur:" + e);
         }
