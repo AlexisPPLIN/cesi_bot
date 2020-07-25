@@ -2,6 +2,7 @@ const appRoot = require('app-root-path');
 const lang = require(appRoot+'/lang/Language');
 
 const PresenceSupervisor = require('../classes/PresenceSupervisor');
+const PermissionsManager = require('../classes/PermissionsManager');
 
 const ArgumentValidationError = require('../Exceptions/ArgumentValidationError')
 const EndBeforeStartError = require('../Exceptions/EndBeforeStartError')
@@ -14,6 +15,12 @@ module.exports = {
     args: true,
     usage: lang.get('cmd_askpresences_usage'),
     execute(message, args) {
+        // Check permissions
+        if(!new PermissionsManager().hasPermission(message)) {
+            message.channel.send(lang.get('exception_not_allowed'));
+            return;
+        }
+
         //Pass the arguments to the PresenceSupervisor and return errors if needed
         let supervisor;
         try {

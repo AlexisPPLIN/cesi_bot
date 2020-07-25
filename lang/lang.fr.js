@@ -47,6 +47,7 @@ module.exports = {
     'exception_time_passed': "Cette période c'est déja déroulée",
     'cmd_AucunEleveError': "Il n'y a aucun élève a cette période !",
     'exception_too_many_arguments' : "Vous avez dépassé le nombre d'argument maximal pour cette commande !",
+    'exception_not_allowed': "Vous n'avez pas la permission d'executer cette commande",
 
     // Others
     'student' : 'Étudiant'
