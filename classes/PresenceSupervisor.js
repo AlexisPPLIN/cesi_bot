@@ -131,6 +131,9 @@ module.exports = class PresenceSupervisor{
 
         let start_job_id = period_id+'s';
         let end_job_id = period_id+'e';
+
+        let start_delay = moment.duration(moment(this.start).diff(moment())).asMilliseconds()
+        let end_delay = moment.duration(moment(this.end).diff(moment())).asMilliseconds()
         // Plan start embed
         embedQueue.add({
             end : false,
@@ -140,11 +143,14 @@ module.exports = class PresenceSupervisor{
             embed: this.generateStartPeriodEmbed()
         },{
             removeOnComplete: true,
-            repeat:{
+            delay: start_delay,
+            /*repeat:{
                 cron: cron_start,
                 tz: "Europe/Paris",
-                limit: 1
-            }
+                limit: 1,
+                start_date: this.start,
+                end_date: this.end
+            }*/
         });
 
         //Plan end embed
@@ -156,11 +162,14 @@ module.exports = class PresenceSupervisor{
             embed: this.generateEndPeriodEmbed()
         },{
             removeOnComplete: true,
-            repeat:{
+            delay: end_delay,
+            /*repeat:{
                 cron: cron_end,
                 tz: "Europe/Paris",
-                limit: 1
-            }
+                limit: 1,
+                start_date: this.start,
+                end_date: this.end
+            }*/
         });
     }
 
