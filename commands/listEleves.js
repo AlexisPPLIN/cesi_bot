@@ -23,7 +23,7 @@ module.exports = {
      try {
             
 
-        db.Utilisateur.findAll({ where: { RoleId: '1' } }).then(Utilisateur => {
+        db.Utilisateur.findAll({ where: { RoleId: '1' }, order : [['nom','ASC']] }).then(Utilisateur => {
             let ListeEtudiantChaine = "";
             for (let i = 0; i < Utilisateur.length; i++) {
                 ListeEtudiantChaine += "🎓" + Utilisateur[i].nom + " " + Utilisateur[i].prenom + " <@" + Utilisateur[i].id_discord + "> \n";
