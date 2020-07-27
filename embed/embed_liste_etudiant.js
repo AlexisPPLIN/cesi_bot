@@ -10,7 +10,12 @@ const embed_liste_etudiant = {
       },
       fields: [
         {
-          name: "Etudiant",
+          name: "NOM Prénom",
+          value: "🎓Alexis POUPELIN\n🎓Justin BAHIER\n🎓Test",
+          inline: true
+        },
+        {
+          name: "Tag discord",
           value: "🎓Alexis POUPELIN\n🎓Justin BAHIER\n🎓Test",
           inline: true
         }
