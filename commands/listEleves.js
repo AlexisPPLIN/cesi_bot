@@ -24,16 +24,19 @@ module.exports = {
             
 
         db.Utilisateur.findAll({ where: { RoleId: '1' }, order : [['nom','ASC']] }).then(Utilisateur => {
-            let ListeEtudiantChaine = "";
-            let ListeEtudiantChaineDiscord = "";
+            let ListeNom = "";
+            let ListePrenom = "";
+            let ListeTagDiscord = "";
             for (let i = 0; i < Utilisateur.length; i++) {
-                ListeEtudiantChaine += "🎓" + Utilisateur[i].nom + " " + Utilisateur[i].prenom + "\n";
-                ListeEtudiantChaineDiscord += " <@" + Utilisateur[i].id_discord + ">\n";
+                ListeNom += Utilisateur[i].nom + "\n";
+                ListePrenom += Utilisateur[i].prenom + "\n"
+                ListeTagDiscord += " <@" + Utilisateur[i].id_discord + ">\n";
             }
-            if(ListeEtudiantChaine === "") ListeEtudiantChaine = lang.get('cmd_list_aucun')
+            if(ListeNom === "") ListeEtudiantChaine = lang.get('cmd_list_aucun')
 
-            embed_liste_etudiant.embed.fields[0].value = ListeEtudiantChaine;
-            embed_liste_etudiant.embed.fields[1].value = ListeEtudiantChaineDiscord;
+            embed_liste_etudiant.embed.fields[0].value = ListeNom;
+            embed_liste_etudiant.embed.fields[1].value = ListePrenom;
+            embed_liste_etudiant.embed.fields[2].value = ListeTagDiscord;
             message.channel.send({ embed: embed_liste_etudiant.embed });
     
         }).catch(() => {
