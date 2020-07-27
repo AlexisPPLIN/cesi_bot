@@ -30,7 +30,7 @@ module.exports = {
                     }
                 }
             } else {
-                where_agrs = {
+                where_args = {
                     id: args[0]
                 }
             }
