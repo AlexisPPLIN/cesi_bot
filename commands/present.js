@@ -1,6 +1,7 @@
 const appRoot = require('app-root-path');
 const lang = require(appRoot + '/lang/Language');
 const db = require(appRoot+'/models/index');
+const env = require(appRoot+'/config.json');
 
 embed_confirmation_presence_mp = require(appRoot+'/embed/embed_confirmation_presence_MP.js');
 
@@ -48,7 +49,10 @@ module.exports = {
             }).catch(error => {
                 message.author.send(lang.get('cmd_present_error_no_class'));
             })
-            message.delete();//supprime le msg
+            if(env.auto_delete_presence_message){
+                message.delete();//supprime le msg
+            }
+
         } catch (e) {
             console.log("erreur:" + e);
         }

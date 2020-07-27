@@ -4,5 +4,6 @@
 	"token": "your-token-goes-here",
 	"redis_host": "127.0.0.1",
     "redis_port": 6379,
-    "lang": "en"
+    "lang": "en",
+    "auto_delete_presence_message": true
 }
