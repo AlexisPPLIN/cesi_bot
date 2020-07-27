@@ -25,12 +25,15 @@ module.exports = {
 
         db.Utilisateur.findAll({ where: { RoleId: '1' }, order : [['nom','ASC']] }).then(Utilisateur => {
             let ListeEtudiantChaine = "";
+            let ListeEtudiantChaineDiscord = "";
             for (let i = 0; i < Utilisateur.length; i++) {
-                ListeEtudiantChaine += "🎓" + Utilisateur[i].nom + " " + Utilisateur[i].prenom + " <@" + Utilisateur[i].id_discord + "> \n";
+                ListeEtudiantChaine += "🎓" + Utilisateur[i].nom + " " + Utilisateur[i].prenom + "\n";
+                ListeEtudiantChaineDiscord += " <@" + Utilisateur[i].id_discord + ">\n";
             }
             if(ListeEtudiantChaine === "") ListeEtudiantChaine = lang.get('cmd_list_aucun')
 
             embed_liste_etudiant.embed.fields[0].value = ListeEtudiantChaine;
+            embed_liste_etudiant.embed.fields[1].value = ListeEtudiantChaineDiscord;
             message.channel.send({ embed: embed_liste_etudiant.embed });
     
         }).catch(() => {
