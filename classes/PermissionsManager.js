@@ -11,7 +11,7 @@ module.exports = class PermissionsManager {
     }
 
     hasPermission(message){
-        let member = message.mentions.members.first() || message.member;
+        let member = message.member;
         let roles = member.roles;
 
         return roles.cache.some(role => role.name === this.admin_role)
