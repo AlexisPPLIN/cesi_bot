@@ -53,7 +53,8 @@ client.on('message', message => {
 	if (!message.content.startsWith(env.prefix) || message.author.bot) return;
 
 	//Check server
-	if(message.channel.type !== "dm" && message.channel.id !== env.server_id){
+	let guild_id = message.guild.id;
+	if(message.channel.type !== "dm" && guild_id !== env.server_id){
 		// Not correct server
 		message.channel.send(lang.get('not_correct_server'))
 		return;
