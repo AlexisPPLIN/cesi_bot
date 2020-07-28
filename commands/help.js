@@ -8,6 +8,7 @@ module.exports = {
     aliases: ['commands'],
     usage: lang.get('cmd_help_usage'),
     cooldown: 5,
+    allowed_in_dm: true,
     execute(message, args) {
         const data = [];
         const { commands } = message.client;

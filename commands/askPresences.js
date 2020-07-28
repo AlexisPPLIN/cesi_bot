@@ -14,6 +14,7 @@ module.exports = {
     description: lang.get('cmd_askpresences_desc'),
     args: true,
     usage: lang.get('cmd_askpresences_usage'),
+    allowed_in_dm: false,
     execute(message, args) {
         // Check permissions
         if(!new PermissionsManager().hasPermission(message)) {

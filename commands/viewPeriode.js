@@ -16,6 +16,7 @@ module.exports = {
     description: lang.get('cmd_presences_desc'),
     args: false,
     usage: lang.get('cmd_presences_usage'),
+    allowed_in_dm: true,
     execute(message, args) {
         try {
             if (args.length > 1) throw new ArgumentValidationError(args);

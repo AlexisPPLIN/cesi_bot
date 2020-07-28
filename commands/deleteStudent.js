@@ -24,6 +24,7 @@ module.exports = {
     description: lang.get('cmd_delete_desc'),
     args: true,
     usage: lang.get('cmd_delete_usage'),
+    allowed_in_dm: true,
     execute(message, args) {
         // Check permissions
         if(!new PermissionsManager().hasPermission(message)) {

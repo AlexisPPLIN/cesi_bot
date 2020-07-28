@@ -52,6 +52,7 @@ module.exports = {
 
     // Others
     'student' : 'Étudiant',
-    'not_correct_server': "Vous ne pouvez pas utiliser ce bot sur un autre serveur !"
+    'not_correct_server': "Vous ne pouvez pas utiliser ce bot sur un autre serveur !",
+    'not_allowed_in_dm': "Vous ne pouvez pas executer cette commande en MP !"
 
 }

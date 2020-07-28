@@ -13,6 +13,7 @@ module.exports = {
     description: lang.get('cmd_listperiodes_desc'),
     args: false,
     usage: lang.get('cmd_listperiodes_usage'),
+    allowed_in_dm: true,
     execute(message, args) {
         let supervisor;
         try{

@@ -70,6 +70,12 @@ client.on('message', message => {
 	|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 	if (!command) return;
 
+	//Check if the command is allowed in DM
+	if(message.channel.type === "dm" && !command.allowed_in_dm){
+		message.channel.send(lang.get('not_allowed_in_dm'));
+		return;
+	}
+
 	// Check if the command need arguments
 	if (command.args && !args.length) {
 		let reply = `You didn't provide any arguments, ${message.author}!`;

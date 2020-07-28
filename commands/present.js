@@ -11,6 +11,7 @@ module.exports = {
     description: lang.get('cmd_present_desc'),
     args: false,
     usage: "",
+    allowed_in_dm: false,
     execute(message, args) {
         //Pass the arguments to the PresenceSupervisor and return errors if needed
         try {
