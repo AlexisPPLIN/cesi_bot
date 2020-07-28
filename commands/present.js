@@ -28,22 +28,36 @@ module.exports = {
             }).then(Periodeactuel => {
                 db.Utilisateur.findOne({where: {id_discord: message.author.id}})
                     .then((utilisateur) => {
-                        // Register présence to database
-                        db.Presence.update({StatutId: 1, date_arrive: new Date()}, {
-                            where: {
+                        db.Presence.findOne({where : {
                                 PeriodeId: Periodeactuel.get('id'),
-                                UtilisateurId: utilisateur.get('id')
-                            }
-                        }).then(result => {
-                            // Send embed
-                            var heurechaine = Periodeactuel.debut.getHours() + ":" + Periodeactuel.debut.getMinutes() + "-" + Periodeactuel.fin.getHours() + ":" + Periodeactuel.fin.getMinutes();
-                            embed_confirmation_presence_mp.embed.fields[0].value = utilisateur.get('nom') + " " + utilisateur.get('prenom') //modifie le nom /* mettre le nom de la base de donne en fct de l'id
-                            embed_confirmation_presence_mp.embed.description = heurechaine
-                            embed_confirmation_presence_mp.embed.timestamp = dateActuel;
+                                UtilisateurId: utilisateur.get('id'),
+                                StatutId : 3
+                            }})
+                            .then(presence => {
+                                if(presence === null){
+                                    message.author.send(lang.get('cmd_present_error_already'));
+                                    return;
+                                }
 
-                            message.author.send({embed: embed_confirmation_presence_mp.embed});
-                        }).catch(error => {
-                            message.author.send(lang.get('cmd_present_error_already'));
+                                // Register présence to database
+                                db.Presence.update({StatutId: 1, date_arrive: new Date()}, {
+                                    where: {
+                                        PeriodeId: Periodeactuel.get('id'),
+                                        UtilisateurId: utilisateur.get('id')
+                                    }
+                                }).then(result => {
+                                    // Send embed
+                                    var heurechaine = Periodeactuel.debut.getHours() + ":" + Periodeactuel.debut.getMinutes() + "-" + Periodeactuel.fin.getHours() + ":" + Periodeactuel.fin.getMinutes();
+                                    embed_confirmation_presence_mp.embed.fields[0].value = utilisateur.get('nom') + " " + utilisateur.get('prenom') //modifie le nom /* mettre le nom de la base de donne en fct de l'id
+                                    embed_confirmation_presence_mp.embed.description = heurechaine
+                                    embed_confirmation_presence_mp.embed.timestamp = dateActuel;
+
+                                    message.author.send({embed: embed_confirmation_presence_mp.embed});
+                                }).catch(error => {
+                                    message.author.send(lang.get('cmd_present_error_already'));
+                                })
+                            }).catch(error => {
+                                message.author.send(lang.get('cmd_present_error_already'));
                         })
                     })
             }).catch(error => {
