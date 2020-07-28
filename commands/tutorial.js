@@ -7,6 +7,7 @@ module.exports = {
     description: lang.get('cmd_tutorial_desc'),
     args: false,
     usage: "",
+    allowed_in_dm: true,
     execute(message, args) {
         const embed = {
             "title": "Tutoriel pour utiliser le bot",
