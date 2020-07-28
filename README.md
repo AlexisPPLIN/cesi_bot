@@ -1,7 +1,9 @@
 # cesi_bot
-Un bot discord pour gérér les présences des RIL au CESI du Mans
+Un bot discord pour gérér les présences des RIL au CESI du Mans  
+⚠ Ne fonctionne actuellement que pour un seul serveur par instance ⚠
 * Alexis POUPELIN
 * Justin BAHIER
+
 ## Dependencies
 * Node.js >= 12
 * npm
