@@ -51,6 +51,7 @@ module.exports = {
     'exception_not_allowed': "Vous n'avez pas la permission d'executer cette commande",
 
     // Others
-    'student' : 'Étudiant'
+    'student' : 'Étudiant',
+    'not_correct_server': "Vous ne pouvez pas utiliser ce bot sur un autre serveur !"
 
 }

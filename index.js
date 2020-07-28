@@ -4,6 +4,7 @@ const fs = require("fs");
 const Discord = require('discord.js');
 const env = require(appRoot+'/config.json');
 const client = new Discord.Client();
+const lang = require(appRoot + '/lang/Language');
 
 const PresenceSupevisor = require(appRoot+'/classes/PresenceSupervisor');
 
@@ -51,6 +52,12 @@ client.on('message', message => {
 	// Get message command and arguments
 	if (!message.content.startsWith(env.prefix) || message.author.bot) return;
 
+	//Check server
+	if(message.channel.type !== "dm" && message.channel.id !== env.server_id){
+		// Not correct server
+		message.channel.send(lang.get('not_correct_server'))
+		return;
+	}
 
 	const args = message.content.slice(env.prefix.length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();

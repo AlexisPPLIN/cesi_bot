@@ -5,5 +5,6 @@
 	"redis_host": "127.0.0.1",
     "redis_port": 6379,
     "lang": "en",
-    "auto_delete_presence_message": true
+    "auto_delete_presence_message": true,
+    "server_id": "your-server-id"
 }
